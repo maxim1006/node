@@ -1,0 +1,2527 @@
+
+
+<!DOCTYPE html>
+<html >
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content='width=1024' name='viewport'>
+
+
+    <title>Выразительный JavaScript: Node.js / Хабрахабр</title>
+
+    <meta name='yandex-verification' content='67d46b975fa41645' /> <!-- яндекс вебмастер - верификация -->
+
+    <meta name="description" content="Содержание
+
+Введение
+Величины, типы и операторы
+Структура программ
+Функции
+Структуры данных: объекты и массивы
+Функции высшего порядка
+Тайная жизнь объектов
+Проект: электронная..." />
+    <meta name="keywords" content="node.js, npm" />
+
+    <meta property="fb:app_id"      content="444736788986613" />
+    <meta property="og:type"        content="article" />
+    <meta property="og:url"         content="http://habrahabr.ru/post/245775/" />
+    <meta property="og:title"       content="Выразительный JavaScript: Node.js" />
+
+    <meta property="og:image"       content="http://habrahabr.ru/i/habralogo.jpg" />
+    <link rel="image_src" href="http://habrahabr.ru/i/habralogo.jpg" />
+    <meta property="og:description" content="Содержание  Введение Величины, типы и операторы Структура программ Функции Структуры данных: объекты и массивы Функции высшего порядка Тайная жизнь объектов..." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@habrahabr" />
+    <meta property="al:ios:url" content="habrahabr://post/245775" />
+    <meta property="al:ios:app_store_id" content="778613673" />
+    <meta property="al:ios:app_name" content="Habrahabr" />
+    <meta property="al:android:url" content="habrahabr://post/245775" />
+    <meta property="al:android:app_name" content="Habrahabr" />
+    <meta property="al:android:package" content="ru.habrahabr" />
+    <meta property="al:windows_phone:url" content="habrahabr://post/245775" />
+    <meta property="al:windows_phone:app_name" content="Habrahabr" />
+    <meta property="al:windows_phone:app_id" content="460a6bd6-8955-470f-935e-9ea1726a6060" />
+    <link rel="canonical" href="http://habrahabr.ru/post/245775/"/>
+    <link rel="alternate" media="only screen and (max-width: 640px)" href="http://m.habrahabr.ru/post/245775/" >
+
+
+
+    <script type="text/javascript" src="//habracdn.net/habr/javascripts/1445500984/assets/global_main.js"></script>
+    <link href="//habracdn.net/habr/styles/1445500984/assets/post_common_css.css" rel="stylesheet" media="all" />
+    <link href="//habracdn.net/habr/styles/1445500984/users/all.css" rel="stylesheet" media="all" />
+
+    <link href="//habracdn.net/habr/styles/1445500984/assets/global_main.css" rel="stylesheet" media="all" />
+    <link href="//habracdn.net/habr/styles/1445500984/printer.css" rel="stylesheet" media="print" />
+
+
+
+
+
+
+
+    <script type="text/javascript" src="//habracdn.net/habr/javascripts/1445500984/assets/post_common_js.js"></script>
+    <script type="text/javascript" src="//habracdn.net/habr/javascripts/1445500984/users/all.js"></script>
+
+
+
+    <script >
+        var N = 5;
+        var ar_duo1 = Math.floor(Math.random()*N+1);
+    </script>
+    <script type="text/javascript" src="//habracdn.net/habr/javascripts/1445500984/adriver.core.2.js"></script>
+
+    <link title="Хабрахабр / Комментарии к публикации «Выразительный JavaScript: Node.js»" type="application/rss+xml" rel="alternate" href="http://habrahabr.ru/rss/post/245775/"/>
+
+    <script src="//habracdn.net/habr/javascripts/1445500984/_parts/advertising.js"></script>
+
+    <script type="text/javascript">
+
+        if (typeof adbl == 'undefined')
+        {
+            var adbl = 'yes';
+        }
+
+        var user_type = "guest";
+
+        var page_type = "publish_ugc";
+
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-726094-1',  'auto');
+        ga('create', 'UA-726094-24', 'auto', {'name': 'HGM'});
+
+        ga('require', 'displayfeatures');
+        ga('set', 'dimension1', user_type); // user type - guest/readonly/habrauser
+
+
+        ga('set', 'dimension4', adbl);
+
+        ga('set', 'dimension5', page_type);
+
+
+        if(typeof removeUtms === 'undefined') {
+            removeUtms = function(){};
+        }
+
+        ga('HGM.set', 'dimension1', user_type);
+        ga('HGM.set', 'dimension2', "habrahabr");
+        ga('HGM.send', 'pageview');
+
+        ga('send', 'pageview', { 'hitCallback': removeUtms });
+
+
+    </script>
+
+
+    <meta content='Хабрахабр' name='apple-mobile-web-app-title'>
+    <link href="/images/apple-touch-icon_142x142.png" rel='apple-touch-icon' type='image/png'>
+</head>
+
+<body>
+<div id="TMpanel">
+    <div class="container">
+        <div class="bmenu">
+            <a href="http://tmfeed.ru?utm_source=tm_habrahabr&utm_medium=tm_top_panel&utm_campaign=tm_promo">TM Feed</a>
+            <a href="http://habrahabr.ru?utm_source=tm_habrahabr&utm_medium=tm_top_panel&utm_campaign=tm_promo" class="current">Хабрахабр</a>
+            <a href="http://megamozg.ru?utm_source=tm_habrahabr&utm_medium=tm_top_panel&utm_campaign=tm_promo">Мегамозг</a>
+            <a href="http://geektimes.ru?utm_source=tm_habrahabr&utm_medium=tm_top_panel&utm_campaign=tm_promo">Geektimes</a>
+            <a href="https://toster.ru?utm_source=tm_habrahabr&utm_medium=tm_top_panel&utm_campaign=tm_promo">Тостер</a>
+            <a href="https://moikrug.ru?utm_source=tm_habrahabr&utm_medium=tm_top_panel&utm_campaign=tm_promo">Мой круг</a>
+            <a href="http://freelansim.ru?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=head_link">Фрилансим</a>
+        </div>
+        <div class="bmenu slink"></div>
+        <span id="adriver_banner_465568687"></span>
+    </div>
+</div>
+
+<div id="layout">
+    <div id="navbar_overlay" class="hidden"></div>
+    <div id="navbar">
+        <div class="nav_panel">
+            <a href="/" class="logo"></a>
+
+            <a href="/posts/" class="tab tab_menu" data-tab="menu_tab" title="Меню"><span class="g-icon g-icon-burger"></span></a>
+            <a href="https://habrahabr.ru/auth/login/" class="tab tab_login" id="login" title="Войти"><span class="g-icon g-icon-lock"></span></a>
+
+            <a href="" class="tab tab_print  hidden" id="print_tab" target="_blank" data-post-id="245775"></a>
+
+            <a href="#" class="scroll_to_up hidden scroll_to_up_for_guest" id="scroll_to_top" title="Наверх"></a>
+        </div>
+        <div class="nav_tabs_content ">
+
+            <div class="nav_tab hidden" id="menu_tab">
+                <div class="title">Разделы</div>
+                <form action="/search/" method="get" class="global_search_form">
+                    <div>
+                        <input type="text" name="q" placeholder="Поиск" />
+                    </div>
+                </form>
+                <div class="menu">
+                    <a href="/posts/top/">Публикации</a>
+                    <a href="/hubs/">Хабы</a>
+                    <a href="/companies/">Компании</a>
+                    <a href="/users/">Пользователи</a>
+                    <a href="/sandbox/">Песочница</a>
+                    <div class="line"></div>
+                    <a href="http://toster.ru/" class="new_window">Q&A</a>
+                    <a href="https://moikrug.ru?utm_source=tm_habrahabr&utm_medium=tm_left_menu&utm_campaign=tm_promo" class="new_window">Вакансии</a>
+
+                </div>
+
+
+
+                <div class="line"></div>
+                <div class="title">Спецпроекты</div>
+                <div class="menu">
+
+                    <a href="http://bit.ly/1LNP3MO" target="_blank">Сократить расходы</a>
+
+                    <a href="http://bit.ly/1Lsvolb" target="_blank">-15% на HighLoad++</a>
+
+                    <a href="http://bit.ly/1iPNrFA" target="_blank">ПРИЗ 500 000 р. </a>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="inner">
+
+        <script type="text/javascript">
+
+            function readCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for(var i=0;i < ca.length;i++) {
+                    var c = ca[i];
+                    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+                }
+                return null;
+            }
+
+            $(document).ready(function(){
+                if (adbl == 'yes' && !readCookie('adb-p'))
+                {
+                    $('.dont-add-our-site-pls').show();
+                }
+            });
+        </script>
+        <div class="dont-add-our-site-pls" style="display: none;">
+            <div class="adb-text">
+                Привет, Хабрапользователь. Кажется, ты используешь AdBlock. Хабрахабр <br>
+                развивается и существует за счет доходов от рекламы. Добавь нас в исключения.
+            </div>
+            <a class="adb-btn" href="/adblock/">открытое письмо</a>
+            <a class="adb-btn" href="/adblock/?how=1">как отключить</a>
+            <div class="adb-close"></div>
+        </div>
+
+
+
+
+
+        <div class="column-wrapper">
+            <div class="user_header">
+
+                <a class="avatar" href="http://habrahabr.ru/users/SLY_G/"><img src="//habrastorage.org/getpro/habr/avatars/329/fc8/9e5/329fc89e55a9132bf200ff315065f3f7.jpg" alt="avatar" /></a>
+                <h2 class="username"><a  href="http://habrahabr.ru/users/SLY_G/">SLY_G</a></h2>
+
+
+                <div class="karma  js-karma">
+                    <div class="label">карма</div>
+                    <div class="score">
+
+                        <div class="num js-karma_num">230,2</div>
+
+
+
+
+                    </div>
+                    <div class="votes" >941 голос</div>
+                </div>
+
+                <div class="rating">
+                    <div class="label">рейтинг</div>
+                    <div class="num">32,8</div>
+                </div>
+
+
+                <div class="clear"></div>
+            </div>
+
+            <div class="content_left">
+
+                <table class="menu">
+                    <tr>
+                        <td class="item ">
+                            <a href="http://habrahabr.ru/users/SLY_G/"  ><span class="name">Профиль</span></a>
+                        </td>
+                        <td class="item  active">
+                            <a href="http://habrahabr.ru/users/SLY_G/topics/"  ><span class="name">Публикации (<span class="count">178</span>)</span></a>
+                        </td>
+                        <td class="item ">
+                            <a href="http://habrahabr.ru/users/SLY_G/comments/"  ><span class="name">Комментарии (<span class="count">1426</span>)</span></a>
+                        </td>
+                        <td class="item ">
+                            <a href="http://habrahabr.ru/users/SLY_G/favorites/"  ><span class="name">Избранное (<span class="count">53</span>)</span></a>
+                        </td>
+                    </tr>
+                </table>
+                <div class="submenu ">
+
+                </div>
+                <div class="clear"></div>
+
+
+                <div class="post_show">
+
+
+                    <div class="post translation shortcuts_item" id="post_245775">
+                        <div class="published">14 декабря 2014 в 01:27</div>
+                        <h1 class="title">
+
+
+                            <span class="post_title">Выразительный JavaScript: Node.js</span>
+
+                            <span class="flag flag_translation">перевод</span>
+
+
+
+
+                        </h1>
+
+                        <div class="hubs">
+                            <a href="http://habrahabr.ru/hub/nodejs/" class="hub " title="Вы не подписаны на этот хаб" >Node.JS</a><span class="profiled_hub" title="Профильный хаб">*</span>,
+                            <a href="http://habrahabr.ru/hub/programming/" class="hub " title="Вы не подписаны на этот хаб" >Программирование</a><span class="profiled_hub" title="Профильный хаб">*</span>,
+                            <a href="http://habrahabr.ru/hub/javascript/" class="hub " title="Вы не подписаны на этот хаб" >JavaScript</a><span class="profiled_hub" title="Профильный хаб">*</span>
+                        </div>
+
+
+                        <div class="content html_format">
+                            <h4>Содержание</h4><br/>
+                            <ul>
+                                <li><a href="http://habrahabr.ru/post/240219/">Введение</a></li>
+                                <li><a href="http://habrahabr.ru/post/240223/">Величины, типы и операторы</a></li>
+                                <li><a href="http://habrahabr.ru/post/240225/">Структура программ</a></li>
+                                <li><a href="http://habrahabr.ru/post/240349/">Функции</a></li>
+                                <li><a href="http://habrahabr.ru/post/240813/">Структуры данных: объекты и массивы</a></li>
+                                <li><a href="http://habrahabr.ru/post/241155/">Функции высшего порядка</a></li>
+                                <li><a href="http://habrahabr.ru/post/241587/">Тайная жизнь объектов</a></li>
+                                <li><a href="http://habrahabr.ru/post/241776/">Проект: электронная жизнь</a></li>
+                                <li><a href="http://habrahabr.ru/post/242609/">Поиск и обработка ошибок</a></li>
+                                <li><a href="http://habrahabr.ru/post/242695/">Регулярные выражения</a></li>
+                                <li><a href="http://habrahabr.ru/post/243273/">Модули</a></li>
+                                <li><a href="http://habrahabr.ru/post/243277/">Проект: язык программирования</a></li>
+                                <li><a href="http://habrahabr.ru/post/243311/">JavaScript и браузер</a></li>
+                                <li><a href="http://habrahabr.ru/post/243815/">Document Object Model</a></li>
+                                <li><a href="http://habrahabr.ru/post/244041/">Обработка событий</a></li>
+                                <li><a href="http://habrahabr.ru/post/244405/">Проект: игра-платформер</a></li>
+                                <li><a href="http://habrahabr.ru/post/244545/">Рисование на холсте</a></li>
+                                <li><a href="http://habrahabr.ru/post/245145/">HTTP</a></li>
+                                <li><a href="http://habrahabr.ru/post/245731/">Формы и поля форм</a></li>
+                                <li><a href="http://habrahabr.ru/post/245767/">Проект: Paint</a></li>
+                                <li><a href="http://habrahabr.ru/post/245775/">Node.js</a></li>
+                                <li><a href="http://habrahabr.ru/post/246331/">Проект: веб-сайт по обмену опытом</a></li>
+                                <li><a href="http://eloquentjavascript.net/code">Песочница для кода</a></li>
+                            </ul><br/>
+                            <br/>
+                            <i>Ученик спросил: «Программисты встарь использовали только простые компьютеры и программировали без языков, но они делали прекрасные программы. Почему мы используем сложные компьютеры и языки программирования?». Фу-Тзу ответил: «Строители встарь использовали только палки и глину, но они делали прекрасные хижины».<br/>
+                                <br/>
+                                Мастер Юан-Ма, «Книга программирования»</i><br/>
+                            <br/>
+                            На текущий момент вы учили язык JavaScript и использовали его в единственном окружении: в браузере. В этой и следующей главе мы кратко представим вам Node.js, программу, которая позволяет применять навыки JavaScript вне браузера. С ней вы можете написать всё, от утилит командной строки до динамических HTTP серверов.<br/>
+                            <br/>
+                            Эти главы посвящены обучению важным идеям, составляющим Node.js и предназначены для передачи вам достаточного количества информации, чтобы вы могли писать полезные программы в этой среде. Они не пытаются быть всеобъемлющими справочниками по Node.<br/>
+                            <br/>
+                            Код из предыдущих глав вы могли писать и исполнять прямо в браузере, но код из этой главы написан для Node и в браузере работать не будет.<br/>
+                            <br/>
+                            Если вы хотите сразу запускать код из этой главы, начните с установки Node с сайта nodejs.org для вашей операционки. Также на этом сайте вы найдёте документацию по Node и его встроенным модулям.<br/>
+                            <a name="habracut"></a><br/>
+                            <h4>Вступление</h4><br/>
+                            Одна из наиболее сложных проблем при написании систем, общающихся по сети – обработка ввода и вывода. Чтение и запись данных в сеть и из сети, на диск, и другие устройства. Перемещение данных требует времени, и грамотное планирование этих действий может сильно повлиять на время отклика системы для пользователя или сетевых запросов.<br/>
+                            <br/>
+                            В традиционном методе обработки ввода и вывода принято, что функция, к примеру, readFile, начинает читать файл и возвращается только когда файл полностью прочитан. Это называется синхронным вводом-выводом (synchronous I/O, input/output).<br/>
+                            <br/>
+                            Node был задуман с целью облегчить и упростить использование асинхронного I/O. Мы уже встречались с асинхронными интерфейсами, такими, как объект браузера XMLHttpRequest, обсуждавшийся в главе 17. Такой интерфейс позволяет скрипту продолжать работу, пока интерфейс делает свою, и вызывает функцию обратного вызова по окончанию работы. Таким образом в Node работает весь I/O.<br/>
+                            <br/>
+                            JavaScript легко вписывается в систему типа Node. Это один из немногих языков, в которые не встроена система I/O. Поэтому JavaScript легко встраивается в довольно эксцентричный подход к I/O в Node и в результате не порождает две разных системы ввода и вывода. В 2009 году при разработке Node люди уже использовали I/O в браузере, основанный на обратных вызовах, поэтому сообщество вокруг языка было привычно к асинхронному стилю программирования.<br/>
+                            <br/>
+                            <h4>Асинхронность</h4><br/>
+                            Попробую проиллюстрировать разницу в синхронном и асинхронном подходах в I/O на небольшом примере, где программа должна получить два ресурса из интернета, и затем сделать что-то с данными.<br/>
+                            <br/>
+                            В синхронном окружении очевидным способом решения задачи будет сделать запросы последовательно. У этого метода есть минус – второй запрос начнётся только после окончания первого. Общее время будет не меньше, чем сумма времени на обработку двух запросов. Это неэффективное использование компьютера, который большую часть времени будет простаивать, пока происходит передача данных по сети.<br/>
+                            <br/>
+                            Решение проблемы в синхронной системе – запуск дополнительных потоков контроля исполнения программы (в главе 14 мы их уже обсуждали). Второй поток может запустить второй запрос, и затем оба потока будут ждать возврата результата, после чего они заново будут синхронизированы для сведения работы в один результат.<br/>
+                            <br/>
+                            На диаграмме жирные линии обозначают время нормальной работы программы, а тонкие – время ожидания I/O. В синхронной модели время, затраченное на I/O, входит во временной график каждого из потоков. В асинхронной, запуск действия по I/O приводит к разветвлению временной линии. Поток, запустивший I/O, продолжает выполнение, а I/O выполняется параллельно ему, по окончанию работы делая обратный вызов функции.<br/>
+                            <br/>
+                            Поток выполнения программы для синхронного и асинхронного I/O<br/>
+                            <br/>
+                            Ещё один способ выразить эту разницу: в синхронной модели ожидание окончания I/O неявное, а в асинхронной – явное, и находится под нашим непосредственным контролем. Но асинхронность работает в обе стороны. С её помощью выражать программы, не работающие по принципу прямой линии, проще, но выражать прямолинейные программы становится сложнее.<br/>
+                            <br/>
+                            В главе 17 я уже касался того факта, что обратные вызовы привносят кучу шума и делают программу менее упорядоченной. Является ли такой подход в общем хорошей идеей – спорный вопрос. В любом случае, требуется время, чтобы привыкнуть к нему.<br/>
+                            <br/>
+                            Но для системы, основанной на JavaScript, я бы сказал, что использование асинхронности с обратными вызовами имеет смысл. Одна из сильных сторон JavaScript – простота, и попытки добавить в программу несколько потоков привели бы к сильному усложнению. Хотя обратные вызовы не делают код простым, их идея очень проста и в то же время достаточно сильна для того, чтобы писать высокопроизводительные веб-серверы.<br/>
+                            <br/>
+                            <h4>Команда node</h4><br/>
+                            Когда в вашей системе установлен Node.js, у вас появляется программа под названием node, которая запускает файлы JavaScript. Допустим, у вас есть файл hello.js со следующим кодом:<br/>
+                            <br/>
+<pre><code class="javascript">var message = &quot;Hello world&quot;;
+    console.log(message);
+</code></pre><br/>
+                            <br/>
+                            Вы можете выполнить свою программу из командной строки:<br/>
+                            <br/>
+<pre><code class="bash">$ node hello.js
+    Hello world
+</code></pre><br/>
+                            <br/>
+                            Метод console.log в Node действует так же, как в браузере. Выводит кусок текста. Но в Node текст выводится на стандартный вывод, а не в консоль JavaScript в браузере.<br/>
+                            <br/>
+                            Если запустить node без файла, он выдаст вам строку запроса, в которой можно писать код на JavaScript и получать результат.<br/>
+                            <br/>
+<pre><code class="bash">$ node
+    &gt; 1 + 1
+    2
+    &gt; [-1, -2, -3].map(Math.abs)
+    [1, 2, 3]
+    &gt; process.exit(0)
+    $
+</code></pre><br/>
+                            <br/>
+                            Переменная process, так же как и console, доступна в Node глобально. Она обеспечивает несколько способов для инспектирования и манипулирования программой. Метод exit заканчивает процесс, и ему можно передать код статуса окончания программы, который сообщает программе, запустившей node (в данном случае, программной оболочке), завершилась ли программа удачно (нулевой код) или с ошибкой (любое другое число).<br/>
+                            <br/>
+                            Для доступа к аргументам командной строки, переданным программе, можно читать массив строк process.argv. В него также включены имя команды node и имя вашего скрипта, поэтому список аргументов начинается с индекса 2. Если файл showargv.js содержит только инструкцию console.log(process.argv), его можно запустить так:<br/>
+                            <br/>
+<pre><code class="bash">$ node showargv.js one --and two
+    [&quot;node&quot;, &quot;/home/marijn/showargv.js&quot;, &quot;one&quot;, &quot;--and&quot;, &quot;two&quot;]
+</code></pre><br/>
+                            <br/>
+                            Все стандартные глобальные переменные JavaScript — Array, Math, JSON, также есть в окружении Node. Но там отсутствует функционал, связанный с работой браузера, например document или alert.<br/>
+                            <br/>
+                            Объект глобальной области видимости, который в браузере называется window, в Node имеет более осмысленное название global.<br/>
+                            <br/>
+                            <h4>Модули</h4><br/>
+                            Кроме нескольких упомянутых переменных, вроде console и process, Node держит мало функционала в глобальной области видимости. Для доступа к остальным встроенным возможностям вам надо обращаться к системе модулей.<br/>
+                            <br/>
+                            Система CommonJS, основанная на функции require, была описана в главе 10. Такая система встроена в Node и используется для загрузки всего, от встроенных модулей и скачанных библиотек до файлов, являющихся частями вашей программы.<br/>
+                            <br/>
+                            При вызове require Node нужно преобразовать заданную строку в имя файла. Пути, начинающиеся с &quot;/&quot;, &quot;./&quot; или &quot;../&quot;, преобразуются в пути относительно текущего. &quot;./&quot; означает текущую директорию, &quot;../&quot; – директорию выше, а &quot;/&quot; – корневую директорию файловой системы. Если вы запросите &quot;./world/world&quot; из файла /home/marijn/elife/run.js, Node попробует загрузить файл /home/marijn/elife/world/world.js. Расширение .js можно опускать.<br/>
+                            <br/>
+                            Когда передаётся строка, которая не выглядит как относительный или абсолютный путь, то предполагается, что это либо встроенный модуль, или модуль, установленный в директории node_modules. К примеру, require(«fs») выдаст вам встроенный модуль для работы с файловой системой, а require(«elife») попробует загрузить библиотеку из node_modules/elife/. Типичный метод установки библиотек – при помощи NPM, к которому я вернусь позже.<br/>
+                            <br/>
+                            Для демонстрации давайте сделаем простой проект из двух файлов. Первый назовём main.js, и в нём будет определён скрипт, вызываемый из командной строки, предназначенный для искажения строк.<br/>
+                            <br/>
+<pre><code class="javascript">var garble = require(&quot;./garble&quot;);
+
+    // По индексу 2 содержится первый аргумент программы из командной строки
+    var argument = process.argv[2];
+
+    console.log(garble(argument));
+</code></pre><br/>
+                            <br/>
+                            Файл garble.js определяет библиотеку искажения строк, которая может использоваться как заданной ранее программой для командной строки, так и другими скриптами, которым нужен прямой доступ к функции garble.<br/>
+                            <br/>
+<pre><code class="javascript">module.exports = function(string) {
+    return string.split(&quot;&quot;).map(function(ch) {
+    return String.fromCharCode(ch.charCodeAt(0) + 5);
+    }).join(&quot;&quot;);
+    };
+</code></pre><br/>
+                            <br/>
+                            Замена module.exports вместо добавления к нему свойств позволяет нам экспортировать определённое значение из модуля. В данном случае, результатом запроса нашего модуля получится сама функция искажения.<br/>
+                            <br/>
+                            Функция разбивает строку на символы, используя split с пустой строкой, и затем заменяет все символы на другие, с кодом на 5 единиц выше. Затем она соединяет результат обратно в строку.<br/>
+                            <br/>
+                            Теперь мы можем вызвать наш инструмент:<br/>
+                            <br/>
+<pre><code class="bash">$ node main.js JavaScript
+    Of{fXhwnuy
+</code></pre><br/>
+                            <br/>
+                            <h4>Установка через NPM</h4><br/>
+                            NPM, вскользь упомянутый в главе 10, это онлайн-хранилище модулей JavaScript, многие из которых написаны специально для Node. Когда вы ставите Node на компьютер, вы получаете программу npm, которая даёт удобный интерфейс к этому хранилищу.<br/>
+                            <br/>
+                            К примеру, один из модулей NPM зовётся figlet, и он преобразует текст в “ASCII art”, рисунки, составленные из текстовых символов. Вот как его установить:<br/>
+                            <br/>
+<pre><code class="bash">$ npm install figlet
+    npm GET https://registry.npmjs.org/figlet
+    npm 200 https://registry.npmjs.org/figlet
+    npm GET https://registry.npmjs.org/figlet/-/figlet-1.0.9.tgz
+    npm 200 https://registry.npmjs.org/figlet/-/figlet-1.0.9.tgz
+    figlet@1.0.9 node_modules/figlet
+    $ node
+    &gt; var figlet = require(&quot;figlet&quot;);
+    &gt; figlet.text(&quot;Hello world!&quot;, function(error, data) {
+    if (error)
+    console.error(error);
+    else
+    console.log(data);
+    });
+    _   _      _ _                            _     _ _
+    | | | | ___| | | ___   __      _____  _ __| | __| | |
+    | |_| |/ _ \ | |/ _ \  \ \ /\ / / _ \| '__| |/ _` | |
+    |  _  |  __/ | | (_) |  \ V  V / (_) | |  | | (_| |_|
+    |_| |_|\___|_|_|\___/    \_/\_/ \___/|_|  |_|\__,_(_)
+</code></pre><br/>
+                            <br/>
+                            После запуска npm install NPM создаст директорию node_modules. Внутри неё будет директория figlet, содержащий библиотеку. Когда мы запускаем node и вызываем require(«figlet»), библиотека загружается и мы можем вызвать её метод text, чтобы вывести большие красивые буквы.<br/>
+                            <br/>
+                            Что интересно, вместо простого возврата строки, в которой содержатся большие буквы, figlet.text принимает функцию для обратного вызова, которой он передаёт результат. Также он передаёт туда ещё один аргумент, error, который в случае ошибки будет содержать объект error, а в случае успеха – null.<br/>
+                            <br/>
+                            Такой принцип работы принят в Node. Для создания букв figlet должен прочесть файл с диска, содержащий буквы. Чтение файла – асинхронная операция в Node, поэтому figlet.text не может вернуть результат немедленно. Асинхронность заразительна – любая функция, вызывающая асинхронную, сама становится асинхронной.<br/>
+                            <br/>
+                            NPM – это больше, чем просто npm install. Он читает файлы package.json, содержащие информацию в формате JSON про программу или библиотеку, в частности, на каких библиотеках она основана. Выполнение npm install в директории, содержащей такой файл, автоматически приводит к установке всех зависимостей, и в свою очередь их зависимостей. Также инструмент npm используется для размещения библиотек в онлайновом хранилище NPM, чтобы другие люди могли их находить, скачивать и использовать.<br/>
+                            <br/>
+                            Больше мы не будем углубляться в детали использования NPM. Обращайтесь на npmjs.org за документацией поиску библиотек.<br/>
+                            <br/>
+                            <h4>Модуль file system</h4><br/>
+                            Один из самых востребованных встроенных модулей Node – модуль “fs”, что означает «файловая система». Модуль обеспечивает функционал для работы с файлами и директориями.<br/>
+                            <br/>
+                            К примеру, есть функция readFile, читающая файл и делающая обратный вызов с содержимым файла.<br/>
+                            <br/>
+<pre><code class="javascript">var fs = require(&quot;fs&quot;);
+    fs.readFile(&quot;file.txt&quot;, &quot;utf8&quot;, function(error, text) {
+    if (error)
+    throw error;
+    console.log(&quot;А в файле том было:&quot;, text);
+    });
+</code></pre><br/>
+                            <br/>
+                            Второй аргумент readFile задаёт кодировку символов, в которой нужно преобразовывать содержимое файла в строку. Текст можно преобразовать в двоичные данные разными способами, но самым новым из них является UTF-8. Если у вас нет оснований полагать, что в файле содержится текст в другой кодировке, можно смело передавать параметр «utf8». Если вы не задали кодировку, Node выдаст вам данные в двоичной кодировке в виде объекта Buffer, а не строки. Это массивоподобный объект, содержащий байты из файла.<br/>
+                            <br/>
+<pre><code class="javascript">var fs = require(&quot;fs&quot;);
+    fs.readFile(&quot;file.txt&quot;, function(error, buffer) {
+    if (error)
+    throw error;
+    console.log(&quot;В файле было &quot;, buffer.length, &quot; байт.&quot;,
+    &quot;Первый байт:&quot;, buffer[0]);
+    });
+</code></pre><br/>
+                            <br/>
+                            Схожая функция, writeFile, используется для записи файла на диск.<br/>
+                            <br/>
+<pre><code class="javascript">var fs = require(&quot;fs&quot;);
+    fs.writeFile(&quot;graffiti.txt&quot;, &quot;Здесь был Node &quot;, function(err) {
+    if (err)
+    console.log(&quot;Ничего не вышло, и вот почему:&quot;, err);
+    else
+    console.log(&quot;Запись успешна. Все свободны.&quot;);
+    });
+</code></pre><br/>
+                            <br/>
+                            Здесь задавать кодировку не нужно, потому что writeFile полагает, что если ей на запись дали строку, а не объект Buffer, то её надо выводить в виде текста с кодировкой по умолчанию UTF-8.<br/>
+                            <br/>
+                            Модуль “fs” содержит много полезного: функция readdir возвращает список файлов директории в виде массива строк, stat вернёт информацию о файле, rename переименовывает файл, unlink удаляет, и т.п. См. документацию на nodejs.org<br/>
+                            <br/>
+                            Многие функции “fs” имеют как синхронный, так и асинхронный вариант. К примеру, есть синхронный вариант функции readFile под названием readFileSync.<br/>
+                            <br/>
+<pre><code class="javascript">var fs = require(&quot;fs&quot;);
+    console.log(fs.readFileSync(&quot;file.txt&quot;, &quot;utf8&quot;));
+</code></pre><br/>
+                            <br/>
+                            Синхронные функции использовать проще и полезнее для простых скриптов, где дополнительная скорость асинхронного метода не важна. Но заметьте – на время выполнения синхронного действия ваша программа полностью останавливается. Если ей надо отвечать на ввод пользователя или другим программам по сети, затыки ожидания синхронного I/O приводят к раздражающим задержкам.<br/>
+                            <br/>
+                            <h4>Модуль HTTP </h4><br/>
+                            Ещё один основной модуль — «http». Он даёт функционал для создания HTTP серверов и HTTP запросов.<br/>
+                            <br/>
+                            Вот всё, что нужно для запуска простейшего HTTP сервера:<br/>
+                            <br/>
+<pre><code class="javascript">var http = require(&quot;http&quot;);
+    var server = http.createServer(function(request, response) {
+    response.writeHead(200, {&quot;Content-Type&quot;: &quot;text/html&quot;});
+    response.write(&quot;&lt;h1&gt;Привет!&lt;/h1&gt;&lt;p&gt;Вы запросили &lt;code&gt;&quot; +
+    request.url + &quot;&lt;/code&gt;&lt;/p&gt;&quot;);
+    response.end();
+    });
+    server.listen(8000);
+</code></pre><br/>
+                            <br/>
+                            Запустив скрипт на своей машины, вы можете направить браузер по адресу <a href="http://localhost">localhost</a>:8000/hello, таким образом создав запрос к серверу. Он ответит небольшой HTML-страницей.<br/>
+                            <br/>
+                            Функция, передаваемая как аргумент к createServer, вызывается при каждой попытке соединения с сервером. Переменные request и response – объекты, представляющие входные и выходные данные. Первый содержит информацию по запросу, например свойство url содержит URL запроса.<br/>
+                            <br/>
+                            Чтобы отправить что-то назад, используются методы объекта response. Первый, writeHead, пишет заголовки ответа (см. главу 17). Вы даёте ему код статуса (в этом случае 200 для “OK”) и объект, содержащий значения заголовков. Здесь мы сообщаем клиенту, что он должен ждать документ HTML.<br/>
+                            <br/>
+                            Затем идёт тело ответа (сам документ), отправляемое через response.write. Этот метод можно вызывать несколько раз, если хотите отправлять ответ по кускам, к примеру, передавая потоковые данные по мере их поступления. Наконец, response.end сигнализирует конец ответа.<br/>
+                            <br/>
+                            Вызов server.listen заставляет сервер слушать запросы на порту 8000. Поэтому вам надо в браузере заходить на localhost:8000, а не просто на localhost (где портом по умолчанию будет 80).<br/>
+                            <br/>
+                            Для остановки такого скрипта Node, который не завершается автоматически, потому что ожидает следующих событий (в данном случае, соединений), надо нажать Ctrl-C.<br/>
+                            <br/>
+                            Настоящий веб-сервер делает гораздо больше того, что описано в примере. Он смотрит на метод запроса (свойство method), чтобы понять, какое действие пытается выполнить клиент, и на URL запроса, чтобы понять, на каком ресурсе это действие должно выполняться. Далее вы увидите более продвинутую версию сервера.<br/>
+                            <br/>
+                            Чтобы сделать HTTP-клиент, мы можем использовать функцию модуля “http” request.<br/>
+                            <br/>
+<pre><code class="javascript">var http = require(&quot;http&quot;);
+    var request = http.request({
+    hostname: &quot;eloquentjavascript.net&quot;,
+    path: &quot;/20_node.html&quot;,
+    method: &quot;GET&quot;,
+    headers: {Accept: &quot;text/html&quot;}
+    }, function(response) {
+    console.log(&quot;Сервис ответил с кодом &quot;,
+    response.statusCode);
+    });
+    request.end();
+</code></pre><br/>
+                            <br/>
+                            Первый аргумент request настраивает запрос, объясняя Node, с каким сервером будем общаться, какой путь будет у запроса, какой метод использовать, и т.д. Второй – функция. которую надо будет вызвать по окончанию запроса. Ей передаётся объект response, в котором содержится вся информация по ответу – к примеру, код статуса.<br/>
+                            <br/>
+                            Как и объект response сервера, объект, возвращаемый request, позволяет передавать данные методом write и заканчивать запрос методом end. В примере не используется write, потому что запросы GET не должны содержать данных в теле.<br/>
+                            <br/>
+                            Для запросов на безопасные URL (HTTPS), Node предлагает модуль https, в котором есть своя функция запроса, схожая с http.request.<br/>
+                            <br/>
+                            <h4>Потоки</h4><br/>
+                            Мы видели два примера потоков в примерах HTTP – объект response, в который сервер может вести запись, и объект request, который возвращается из http.request<br/>
+                            <br/>
+                            Потоки с возможностью записи – популярная концепция в интерфейсах Node. У всех потоков есть метод write, которому можно передать строку или объект Buffer. Метод end закрывает поток, а при наличии аргумента, выведет перед закрытием кусочек данных. Обоим методам можно задать функцию обратного вызова через дополнительный аргумент, которую они вызовут по окончанию записи или закрытию потока.<br/>
+                            <br/>
+                            Возможно создать поток, показывающий на файл, при помощи функции fs.createWriteStream. Затем можно использовать метод write для записи в файл по кусочкам, а не целиком, как в fs.writeFile.<br/>
+                            <br/>
+                            Потоки с возможностью чтения будут чуть сложнее. Как переменная request, переданная функции для обратного вызова в сервере HTTP, так и переменная response, переданная в HTTP-клиенте, являются потоками с возможностью чтения. (Сервер читает запрос и потом пишет ответы, а клиент пишет запрос и читает ответа). Чтение из потока осуществляется через обработчики событий, а не через методы.<br/>
+                            <br/>
+                            У объектов, создающих события в Node, есть метод on, схожий с методом браузера addEventListener. Вы даёте ему имя события и функцию, и он регистрирует эту функцию, чтоб её вызвали сразу, когда произойдёт событие.<br/>
+                            <br/>
+                            У потоков с возможностью чтения есть события «data» и «end». Первое происходит при поступлении данных, второе – по окончанию. Эта модель подходит к потоковым данным, которые можно сразу обработать, даже если получен не весь документ. Файл можно прочесть в виде потока через fs.createReadStream.<br/>
+                            <br/>
+                            Следующий код создаёт сервер, читающий тела запросов и отправляющий их в ответ потоком в виде текста из заглавных букв.<br/>
+                            <br/>
+<pre><code class="javascript">var http = require(&quot;http&quot;);
+    http.createServer(function(request, response) {
+    response.writeHead(200, {&quot;Content-Type&quot;: &quot;text/plain&quot;});
+    request.on(&quot;data&quot;, function(chunk) {
+    response.write(chunk.toString().toUpperCase());
+    });
+    request.on(&quot;end&quot;, function() {
+    response.end();
+    });
+    }).listen(8000);
+</code></pre><br/>
+                            <br/>
+                            Переменная chunk, передаваемая обработчику данных, будет бинарным Buffer, который можно преобразовать в строку, вызвав его метод toString, который декодирует его из кодировки по умолчанию (UTF-8).<br/>
+                            <br/>
+                            Следующий код, будучи запущенным одновременно с сервером, отправит запрос на сервер и выведет полученный ответ:<br/>
+                            <br/>
+<pre><code class="javascript">var http = require(&quot;http&quot;);
+    var request = http.request({
+    hostname: &quot;localhost&quot;,
+    port: 8000,
+    method: &quot;POST&quot;
+    }, function(response) {
+    response.on(&quot;data&quot;, function(chunk) {
+    process.stdout.write(chunk.toString());
+    });
+    });
+    request.end(&quot;Hello server&quot;);
+</code></pre><br/>
+                            <br/>
+                            Пример пишет в process.stdout (стандартный вывод процесса, являющийся потоком с возможностью записи), а не в console.log. Мы не можем использовать console.log, так как он добавляет лишний перевод строки после каждого куска кода – это здесь не нужно.<br/>
+                            <br/>
+                            <h4>Простой файловый сервер</h4><br/>
+                            Давайте скомбинируем наши новые знания о серверах HTTP и работе с файловой системой, и наведём мостик между ними: HTTP-сервер, предоставляющий удалённый доступ к файлам. У такого сервера много вариантов использования. Он позволяет веб-приложениям хранить и делиться данными, или может дать группе людей доступ к набору файлов.<br/>
+                            <br/>
+                            Когда мы относимся к файлам, как к ресурсам HTTP, методы GET, PUT и DELETE можно использовать для чтения, записи и удаления файлов. Мы будем интерпретировать путь в запросе как путь к файлу.<br/>
+                            <br/>
+                            Нам не надо открывать доступ ко всей файловой системе, поэтому мы будем интерпретировать эти пути как заданные относительно корневого каталога, и это будет каталог запуска скрипта. Если я запущу сервер из /home/marijn/public/ (или C:\Users\marijn\public\ на Windows), то запрос на /file.txt должен указать на /home/marijn/public/file.txt (или C:\Users\marijn\public\file.txt).<br/>
+                            <br/>
+                            Программу мы будем строить постепенно, используя объект methods для хранения функций, обрабатывающих разные методы HTTP.<br/>
+                            <br/>
+<pre><code class="javascript">var http = require(&quot;http&quot;), fs = require(&quot;fs&quot;);
+
+    var methods = Object.create(null);
+
+    http.createServer(function(request, response) {
+    function respond(code, body, type) {
+    if (!type) type = &quot;text/plain&quot;;
+    response.writeHead(code, {&quot;Content-Type&quot;: type});
+    if (body && body.pipe)
+    body.pipe(response);
+    else
+    response.end(body);
+    }
+    if (request.method in methods)
+    methods[request.method](urlToPath(request.url),
+    respond, request);
+    else
+    respond(405, &quot;Method &quot; + request.method +
+    &quot; not allowed.&quot;);
+    }).listen(8000);
+</code></pre><br/>
+                            <br/>
+                            Этот код запустит сервер, возвращающий ошибки 405 – этот код используется для обозначения того, что запрошенный метод сервером не поддерживается.<br/>
+                            <br/>
+                            Функция respond передаётся функциям, обрабатывающим разные методы, и работает как обратный вызов для окончания запроса. Она принимает код статуса HTTP, тело, и, возможно, тип содержимого. Если переданное тело – поток с возможностью чтения, у него будет метод pipe, который используется для передачи читаемого потока в записываемый. Если нет – предполагается, что это либо null (тело пустое), или строка, и тогда она передаётся напрямую в метод ответа end.<br/>
+                            <br/>
+                            Чтобы получить путь из URL в запросе, функция urlToPath, используя встроенный модуль Node “url”, разбирает URL. Она принимает имя пути, нечто вроде /file.txt, декодирует, чтобы убрать экранирующие коды %20, и вставляет в начале точку, чтобы получить путь относительно текущего каталога.<br/>
+                            <br/>
+<pre><code class="javascript">function urlToPath(url) {
+    var path = require(&quot;url&quot;).parse(url).pathname;
+    return &quot;.&quot; + decodeURIComponent(path);
+    }
+</code></pre><br/>
+                            <br/>
+                            Вам кажется, что функция urlToPath небезопасна? Вы правы. Вернёмся к этому вопросу в упражнениях.<br/>
+                            <br/>
+                            Мы устроим метод GET так, чтобы он возвращал список файлов при чтении директории, и содержимое файла при чтении файла.<br/>
+                            <br/>
+                            Вопрос на засыпку – какой тип заголовка Content-Type мы должны возвращать, читая файл. Поскольку в файле может быть всё, что угодно, сервер не может просто вернуть один и тот же тип для всех. Но NPM с этим может помочь. Модуль mime (индикаторы типа содержимого файла вроде text/plain также называются MIME types) знает правильный тип для огромного количества расширений файлов.<br/>
+                            <br/>
+                            Запустив следующую команду npm в директории, где живёт скрипт сервера, вы сможете использовать require(«mime») для запросов к библиотеке типов.<br/>
+                            <br/>
+<pre><code class="bash">$ npm install mime
+    npm http GET https://registry.npmjs.org/mime
+    npm http 304 https://registry.npmjs.org/mime
+    mime@1.2.11 node_modules/mime
+</code></pre><br/>
+                            <br/>
+                            Когда запрошенного файла не существует, правильным кодом ошибки для этого случая будет 404. Мы будем использовать fs.stat для возврата информации по файлу, чтобы выяснить, есть ли такой файл, и не директория ли это.<br/>
+                            <br/>
+<pre><code class="javascript">methods.GET = function(path, respond) {
+    fs.stat(path, function(error, stats) {
+    if (error && error.code == &quot;ENOENT&quot;)
+    respond(404, &quot;File not found&quot;);
+    else if (error)
+    respond(500, error.toString());
+    else if (stats.isDirectory())
+    fs.readdir(path, function(error, files) {
+    if (error)
+    respond(500, error.toString());
+    else
+    respond(200, files.join(&quot;\n&quot;));
+    });
+    else
+    respond(200, fs.createReadStream(path),
+    require(&quot;mime&quot;).lookup(path));
+    });
+    };
+</code></pre><br/>
+                            <br/>
+                            Поскольку запросы к диску занимают время, fs.stat работает асинхронно. Когда файла не существует, fs.stat передаст объект error с кодовым свойством «ENOENT» в функцию обратного вызова. Было бы здорово, если бы Node определил разные типы ошибок для разных ошибок, но такого нет. Вместо этого он выдаёт запутанные коды в стиле Unix.<br/>
+                            <br/>
+                            Все неожиданные ошибки мы будем выдавать с кодом 500, обозначающим, что на сервере проблема – в отличие от кодов, начинающихся на 4, говорящих о проблеме с запросом. В некоторых ситуациях это будет не совсем аккуратно, но для небольшой примерной программы этого будет достаточно.<br/>
+                            <br/>
+                            Объект stats возвращаемый fs.stat, рассказывает нам о файле всё. Например, size – размер файла, mtime – дата модификации. Здесь нам нужно узнать, директория это или обычный файл – это нам сообщит метод isDirectory.<br/>
+                            <br/>
+                            Для чтения списка файлов в директории мы используем fs.readdir, и через ещё один обратный вызов, возвращаем его пользователю. Для обычных файлов мы создаём читаемый поток через fs.createReadStream и передаём его в ответ, вместе с типом содержимого, который модуль “mime” выдал для этого файла.<br/>
+                            <br/>
+                            Код обработки DELETE будет проще:<br/>
+                            <br/>
+<pre><code class="javascript">methods.DELETE = function(path, respond) {
+    fs.stat(path, function(error, stats) {
+    if (error && error.code == &quot;ENOENT&quot;)
+    respond(204);
+    else if (error)
+    respond(500, error.toString());
+    else if (stats.isDirectory())
+    fs.rmdir(path, respondErrorOrNothing(respond));
+    else
+    fs.unlink(path, respondErrorOrNothing(respond));
+    });
+    };
+</code></pre><br/>
+                            <br/>
+                            Возможно, вам интересно, почему попытка удаления несуществующего файла возвращает статус 204 вместо ошибки. Можно сказать, что при попытке удалить несуществующий файл, так как файла там уже нет, то запрос уже исполнен. Стандарт HTTP поощряет людей делать идемпотентные запросы – то есть такие, при которых многократный повтор одного и того же действия не приводит к разным результатам.<br/>
+                            <br/>
+<pre><code class="javascript">function respondErrorOrNothing(respond) {
+    return function(error) {
+    if (error)
+    respond(500, error.toString());
+    else
+    respond(204);
+    };
+    }
+</code></pre><br/>
+                            <br/>
+                            Когда ответ HTTP не содержит данных, можно использовать код статуса 204 (“no content”). Так как нам нужно обеспечить функции обратного вызова, которые либо сообщают об ошибки, или возвращают ответ 204 в разных ситуациях, я написал специальную функцию respondErrorOrNothing, которая создаёт такой обратный вызов.<br/>
+                            <br/>
+                            Вот обработчик запросов PUT:<br/>
+                            <br/>
+<pre><code class="javascript">methods.PUT = function(path, respond, request) {
+    var outStream = fs.createWriteStream(path);
+    outStream.on(&quot;error&quot;, function(error) {
+    respond(500, error.toString());
+    });
+    outStream.on(&quot;finish&quot;, function() {
+    respond(204);
+    });
+    request.pipe(outStream);
+    };
+</code></pre><br/>
+                            <br/>
+                            Здесь нам не нужно проверять существование файла – если он есть, мы его просто перезапишем. Опять мы используем pipe для передачи данных из читаемого потока в записываемый, в нашем случае – из запроса в файл. Если создать поток не удаётся, создаётся событие “error”, о чём мы сообщаем в ответе. Когда данные переданы успешно, pipe закроет оба потока, что приведёт к запуску события “finish”. А после этого мы можем отчитаться об успехе с кодом 204.<br/>
+                            <br/>
+                            Полный скрипт сервера лежит тут: eloquentjavascript.net/code/file_server.js. Его можно скачать и запустить через Node. Конечно, его можно менять и дополнять для решения упражнений или экспериментов.<br/>
+                            <br/>
+                            Утилита командной строки curl, общедоступная на unix-системах, может использоваться для создания HTTP запросов. Следующий фрагмент тестирует наш сервер. –X используется для задания метода запроса, а –d для включения тела запроса.<br/>
+                            <br/>
+<pre><code class="bash">$ curl http://localhost:8000/file.txt
+    File not found
+    $ curl -X PUT -d hello http://localhost:8000/file.txt
+    $ curl http://localhost:8000/file.txt
+    hello
+    $ curl -X DELETE http://localhost:8000/file.txt
+    $ curl http://localhost:8000/file.txt
+    File not found
+</code></pre><br/>
+                            <br/>
+                            Первый запрос к file.txt завершается с ошибкой, поскольку файла ещё нет. Запрос PUT создаёт файл, и глядите-ка – следующий запрос его успешно получает. После его удаления через DELETE файл снова отсутствует.<br/>
+                            <br/>
+                            <h4>Обработка ошибок</h4><br/>
+                            В коде файлового сервера есть шесть мест, где мы перенаправляем исключения, когда мы не знаем, как обрабатывать ошибки. Поскольку исключения не передаются автоматически в функции обратного вызова, но передаются им как аргументы, их надо каждый раз обрабатывать персонально. Это сводит на нет преимущество обработки исключений, а именно, возможность централизованно обрабатывать ошибки.<br/>
+                            <br/>
+                            Что будет, когда что-то реально выбросит исключение в системе? Мы не используем блоки try, потому оно будет передано на самый верх стека вызовов. В Node это приводит к прекращению выполнения программы и выводу информации об исключении (вместе с отслеживанием стека) на стандартный вывод.<br/>
+                            <br/>
+                            Поэтому наш сервер будет падать при возникновении проблем в коде – в отличие от проблем с асинхронностью, которые будут переданы как аргументы в функции вызова. Если нам надо обрабатывать все исключения, возникающие при обработке запроса, чтобы мы точно отправили ответ, нам надо добавлять блоки try/catch в каждом обратном вызове.<br/>
+                            <br/>
+                            Это плохо. Много программ для Node написаны так, чтобы использовать как можно меньше работы с исключениями, подразумевая что в случае возникновения исключения программа не может его обработать, и поэтому надо падать.<br/>
+                            <br/>
+                            Ещё один подход – использование обещаний, которые были описаны в главе 17. Они ловят исключения, выброшенные функциями обратного вызова и передают их как ошибки. В Node можно загрузить библиотеку promise и использовать её для обработки асинхронных вызовов. Немногие библиотеки Node интегрируют обещания, но обычно их довольно просто обернуть. Отличный модуль “promise” с NPM содержит функцию denodeify, которая берёт асинхронную функцию вроде fs.readFile и преобразовывает её в функцию, возвращающую обещание.<br/>
+                            <br/>
+<pre><code class="javascript">var Promise = require(&quot;promise&quot;);
+    var fs = require(&quot;fs&quot;);
+
+    var readFile = Promise.denodeify(fs.readFile);
+    readFile(&quot;file.txt&quot;, &quot;utf8&quot;).then(function(content) {
+    console.log(&quot;The file contained: &quot; + content);
+    }, function(error) {
+    console.log(&quot;Failed to read file: &quot; + error);
+    });
+</code></pre><br/>
+                            <br/>
+                            Для сравнения, я написал ещё одну версию файлового сервера с использованием обещаний, которую можно найти на <a href="http://eloquentjavascript.net/code/file_server_promises.js">eloquentjavascript.net/code/file_server_promises.js</a>. Она почище, потому что функции теперь могут возвращать результаты, а не назначать обратные вызовы, и исключения передаются неявно.<br/>
+                            <br/>
+                            Приведу несколько строк оттуда, чтобы продемонстрировать разницу в стилях.<br/>
+                            <br/>
+                            Объект fsp, использующийся в коде, содержит варианты функций fs с обещаниями, обёрнутыми при помощи Promise.denodeify. Возвращаемый из обработчика метода объект, со свойствами code и body, становится окончательным результатом цепочки обещаний, и он используется для определения того, какой ответ отправить клиенту.<br/>
+                            <br/>
+<pre><code class="javascript">methods.GET = function(path) {
+    return inspectPath(path).then(function(stats) {
+    if (!stats) // Does not exist
+    return {code: 404, body: &quot;File not found&quot;};
+    else if (stats.isDirectory())
+    return fsp.readdir(path).then(function(files) {
+    return {code: 200, body: files.join(&quot;\n&quot;)};
+    });
+    else
+    return {code: 200,
+    type: require(&quot;mime&quot;).lookup(path),
+    body: fs.createReadStream(path)};
+    });
+    };
+
+    function inspectPath(path) {
+    return fsp.stat(path).then(null, function(error) {
+    if (error.code == &quot;ENOENT&quot;) return null;
+    else throw error;
+    });
+    }
+</code></pre><br/>
+                            <br/>
+                            Функция inspectPath – простая обёртка вокруг fs.stat, обрабатывающая случай, когда файл не найден. В этом случае мы заменяем ошибку на успех, возвращающий null. Все остальные ошибки можно передавать. Когда обещание, возвращаемое из этих обработчиков, обламывается, сервер отвечает кодом 500.<br/>
+                            <br/>
+                            <h4>Итог</h4><br/>
+                            Node – отличная простая система, позволяющая запускать JavaScript вне браузера. Изначально она разрабатывалась для работы по сети, чтобы играть роль узла в сети. Но она позволяет делать много всего, и если вы наслаждаетесь программированием на JavaScript, автоматизация ежедневных задач с Node работает отлично.<br/>
+                            <br/>
+                            NPM предоставляет библиотеки для всего, что вам может прийти в голову (и даже для кое-чего, что вам не придёт в голову), и она позволяет скачивать и устанавливать их простой командой. Node также поставляется с набором встроенных модулей, включая “fs” для работы с файловой системой, и “http” для запуска HTTP серверов и создания HTTP запросов.<br/>
+                            <br/>
+                            Весь ввод и вывод в Node делается асинхронно, если только вы не используете явно синхронный вариант функции, например fs.readFileSync. Вы предоставляете функции обратного вызова, а Node их вызывает в нужное время, когда операции I/O заканчивают работу.<br/>
+                            <br/>
+                            <h4>Упражнения</h4><br/>
+                            <h5>И снова согласование содержания</h5><br/>
+                            В главе 17 первое упражнение было посвящено созданию запросов к eloquentjavascript.net/author, спрашивавших разные типы содержимого путём передачи разных заголовков Accept.<br/>
+                            <br/>
+                            Сделайте это снова, используя функцию Node http.request. Запросите, по крайней мере, типы text/plain, text/html и application/json. Помните, что заголовки запроса можно передавать как объект в свойстве headers, первым аргументом http.request.<br/>
+                            <br/>
+                            Выведите содержимое каждого ответа.<br/>
+                            <br/>
+                            <h5>Устранение утечек</h5><br/>
+                            <br/>
+                            Для упрощения доступа к файлам я оставил работать сервер у себя на комьпютере, в директории /home/marijn/public. Однажды я обнаружил, что кто-то получил доступ ко всем моим паролям, которые я хранил в браузере. Что случилось?<br/>
+                            <br/>
+                            Если вам это непонятно, вспомните функцию urlToPath, которая определялась так:<br/>
+                            <br/>
+<pre><code class="javascript">function urlToPath(url) {
+    var path = require(&quot;url&quot;).parse(url).pathname;
+    return &quot;.&quot; + decodeURIComponent(path);
+    }
+</code></pre><br/>
+                            <br/>
+                            Теперь вспомните, что пути, передаваемые в функцию “fs”, могут быть относительными. Они могут содержать путь “../” в верхний каталог. Что будет, если клиент отправит запросы на URL вроде следующих:<br/>
+                            <br/>
+                            <a href="http://myhostname">myhostname</a>:8000/../.config/config/google-chrome/Default/Web%20Data<br/>
+                            <a href="http://myhostname">myhostname</a>:8000/../.ssh/id_dsa<br/>
+                            <a href="http://myhostname">myhostname</a>:8000/../../../etc/passwd<br/>
+                            <br/>
+                            Поменяйте функцию urlToPath для устранения подобной проблемы. Примите во внимание, что на Windows Node разрешает как прямые так и обратные слеши для задания путей.<br/>
+                            <br/>
+                            Кроме этого, помедитируйте над тем фактом, что как только вы выставляете сырую систему в интернет, ошибки в системе могут быть использованы против вас и вашего компьютера.<br/>
+                            <br/>
+                            <h5>Создание директорий</h5><br/>
+                            Хотя метод DELETE работает и при удалении директорий (через fs.rmdir), пока сервер не предоставляет возможности создания директорий.<br/>
+                            <br/>
+                            Добавьте поддержку метода MKCOL, который должен создавать директорию через fs.mkdir. MKCOL не является основным методом HTTP, но он существует, именно для этого, в стандарте WebDAV, который содержит расширения HTTP, чтобы использовать его для записи ресурсов, а не только для их чтения.<br/>
+                            <br/>
+                            <h5>Общественное место в сети</h5><br/>
+                            Так как файловый сервер выдаёт любые файлы и даже возвращает правильный заголовок Content-Type, его можно использовать для обслуживания веб-сайта. Так как он разрешает всем удалять и заменять файлы, это был бы интересный сайт – который можно изменять, портить и удалять всем, кто может создать правильный HTTP-запрос. Но это всё равно был бы веб-сайт.<br/>
+                            <br/>
+                            Напишите простую HTML страницу с простым файлом JavaScript. Разместите их в директории, обслуживаемой сервером и откройте в браузере.<br/>
+                            <br/>
+                            Затем, в качестве продвинутого упражнения, скомбинируйте все полученные знания из книги, чтобы построить более дружественный интерфейс для модификации веб-сайта изнутри самого сайта.<br/>
+                            <br/>
+                            Используйте форму HTML (глава 18) для редактирования файлов, составляющих сайт, позволяя пользователю обновлять их на сервере через HTTP-запросы, как описано в главе 17.<br/>
+                            <br/>
+                            Начните с одного файла, редактирование которого разрешено. Затем сделайте так, чтобы можно было выбирать файл для редактирования. Используйте тот факт, что наш файловый сервер возвращает списки файлов по запросу директории.<br/>
+                            <br/>
+                            Не меняйте файлы непосредственно в коде файлового сервера – если вы сделаете ошибку, вы скорее всего испортите те файлы. Работайте в директории, недоступной снаружи, и копируйте их туда после тестирования.<br/>
+                            <br/>
+                            Если ваш компьютер соединяется с интернетом напрямую, без firewall, роутера или других устройств, вы сможете пригласить друга на свой сайт. Для проверки сходите на whatismyip.com, скопируйте IP адрес в адресную строку и добавьте :8000 для выбора нужного порта. Если вы попали на свой сайт, то он доступен для просмотра всем.
+                            <div class="clear"></div>
+                        </div>
+
+
+                        <ul class="tags">
+                            <li ><a href="http://habrahabr.ru/search/?q=%5Bnode.js%5D&target_type=posts" rel="tag">node.js</a></li><li >, <a href="http://habrahabr.ru/search/?q=%5Bnpm%5D&target_type=posts" rel="tag">npm</a></li>
+                        </ul>
+
+
+                        <div class="infopanel_wrapper">
+                            <ul class="postinfo-panel postinfo-panel_post" id="infopanel_post_245775">
+                                <!-- Виджет голосования за пост -->
+                                <li class="postinfo-panel__item">
+                                    <div class="voting-wjt js-voting  ">
+                                        <button type="button" disabled class="voting-wjt__button voting-wjt__button_plus js-plus" title="Голосовать могут только зарегистрированные пользователи.">
+                                            <span>&uarr;</span>
+                                        </button>
+
+                                        <div class="voting-wjt__counter voting-wjt__counter_positive  js-mark">
+                                            <span class="voting-wjt__counter-score js-score" title="Общий рейтинг 45: &uarr;42 и &darr;3">+39</span>
+                                        </div>
+
+                                        <button type="button" disabled class="voting-wjt__button voting-wjt__button_minus js-minus" title="Голосовать могут только зарегистрированные пользователи.">
+                                            <span>&darr;</span>
+                                        </button>
+
+                                    </div>
+                                </li>
+
+                                <!-- Количество просмотров публикации -->
+
+                                <li class="postinfo-panel__item">
+                                    <div class="views-count_post" title="Просмотры публикации">44913</div>
+                                </li>
+
+                                <!-- Кнопка «Добавить в избранное» -->
+                                <li class="postinfo-panel__item">
+                                    <div class="favorite-wjt favorite">
+                                        <button type="button" disabled class="favorite-wjt__button favorite-wjt__button_disabled" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять публикации в избранное">
+                                            <span>Добавить в избранное</span>
+                                        </button>
+                                        <span class="favorite-wjt__counter js-favs_count" title="Количество пользователей, добавивших публикацию в избранное">408</span>
+                                    </div>
+                                </li>
+
+
+
+
+                                <!-- шеринг в соцсети -->
+                                <li class="postinfo-panel__item postinfo-panel__item_socials  postinfo-panel__item_socials_right ">
+                                    <ul class="post-share">
+                                        <li class="post-share__item">
+                                            <a href="http://twitter.com/intent/tweet?text=%D0%92%D1%8B%D1%80%D0%B0%D0%B7%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9+JavaScript%3A+Node.js+http://habr.ru/p/245775/+via+%40habrahabr+%23habr" class="post-share__item-link twitter" title="Опубликовать ссылку в Twitter" target="_blank"></a>
+                                        </li>
+                                        <li class="post-share__item">
+                                            <a href="https://vk.com/share.php?url=http://habrahabr.ru/post/245775/" class="post-share__item-link vkontakte" title="Опубликовать ссылку во ВКонтакте" onclick="window.open(this.href, 'Опубликовать ссылку во Вконтакте', 'width=800,height=300'); return false"></a>
+                                        </li>
+                                        <li class="post-share__item">
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://habrahabr.ru/post/245775/" class="post-share__item-link facebook" title="Опубликовать ссылку в Facebook" onclick="window.open(this.href, 'Опубликовать ссылку в Facebook', 'width=640,height=436,toolbar=0,status=0'); return false"></a>
+                                        </li>
+                                        <li class="post-share__item">
+                                            <a href="https://getpocket.com/edit?url=http://habrahabr.ru/post/245775/" target="_blank" class="post-share__item-link pocket" title="Добавить ссылку в Pocket"></a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <!-- кнопка пожаловаться -->
+                            </ul>
+                        </div>
+
+                        <div class="post-type">
+      <span class="post-type_nowrap">
+        <span class="post-type__label post-type__label_translate">Перевод:</span>
+        <a href="http://eloquentjavascript.net/" class="post-type__value">Marijn Haverbeke</a>
+      </span>
+                        </div>
+
+
+                        <div class="author-info author-info_top">
+                            <a href="/users/SLY_G" class="author-info__image">
+                                <img src="//habrastorage.org/getpro/habr/avatars/329/fc8/9e5/329fc89e55a9132bf200ff315065f3f7.jpg" class="author-info__image-pic"/>
+                            </a>
+
+                            <div class="author-info__desc">
+                                <div class="author-info__username">
+                                    <a href="/users/SLY_G" class="author-info__name">Вячеслав Голованов</a>
+                                    <a href="/users/SLY_G" class="author-info__nickname">@SLY_G</a>
+
+                                    <div class="karma__widjet voting-wjt voting-wjt_small js-karma" title="Карма пользователя">
+
+
+                                        <div class="voting-wjt__counter voting-wjt__counter_positive">
+                                            <span class="voting-wjt__label">карма</span>
+                                            <span class="voting-wjt__counter-score js-karma_num">230,2</span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="user-rating" title="Рейтинг пользователя">
+                                        <span class="user-rating__label">рейтинг</span>
+                                        <span class="user-rating__value">32,8</span>
+                                    </div>
+                                </div>
+
+                                <div class="author-info__specialization">
+                                    редактор Хабрахабр
+                                </div>
+
+                                <ul class="author-info__contacts user-contacts">
+                                    <li class="user-contacts__item"><a href="http://golovanovnet.livejournal.com/" target="_blank" class="url LiveJournal">LiveJournal</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <!--  AdRiver code START. Type:AjaxJS Site: habrahabr PZ: 0 BN: 13 -->
+                <div class="html_banner" id="adriver_banner_883932549"></div>
+
+                <script type="text/javascript">
+                    $(function(){
+                        var check_scroll_position = function() {
+                            var height = $(window).height();
+                            var scrollTop = $(window).scrollTop();
+                            var scrollBottom = $(window).scrollTop() + height;
+                            var blockTop = $('#adriver_banner_883932549').position().top;
+                            var show = scrollTop < blockTop && blockTop < scrollBottom;
+
+                            if( show ){
+                                $( window ).off('scroll', check_scroll_position);
+                                $( window ).trigger('show_bn3');
+                            }
+                        };
+
+
+                        $( window ).on('show_bn3', function(){
+                            var keyword = '';
+                            if (typeof crtg_content !== 'undefined' && crtg_content) { keyword = crtg_content; }
+                            var custom = { 4:ar_duo1 };
+                            custom[1] = 'nodejs';
+                            custom[2] = 'programming';
+                            custom[3] = 'javascript';
+                            new adriver("adriver_banner_883932549", {sid:176776, bt:52, bn:13, custom: custom, keyword: keyword});
+                        });
+
+                        $( window ).on('scroll', check_scroll_position);
+                    });
+                </script>
+
+                <!--  AdRiver code END  -->
+
+
+
+                <div class="block_after_post">
+
+
+
+                    <div class="similar_posts">
+
+                        <h2 class="title">Похожие публикации</h2>
+                        <div class="posts_list">
+                            <div class="post_item">
+                                <span class="bull"></span>
+                                <a class="post_name"
+                                   onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', 'common'); }"
+                                   href="/post/252389/">Некоторые тонкости работы с Github и NPM — со вкусом ES6</a>&nbsp;<span class="count">(19)</span>
+                            </div>
+                            <div class="post_item">
+                                <span class="bull"></span>
+                                <a class="post_name"
+                                   onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', 'common'); }"
+                                   href="/post/252029/">Использование npm для глобальной установки приложений, наделённых GUI и основанных на nw.js</a>&nbsp;<span class="count">(4)</span>
+                            </div>
+                            <div class="post_item">
+                                <span class="bull"></span>
+                                <a class="post_name"
+                                   onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', 'common'); }"
+                                   href="/post/249929/">Случайный лабиринт на JS в сами знаете сколько строк</a>&nbsp;<span class="count">(16)</span>
+                            </div>
+                            <div class="post_item">
+                                <span class="bull"></span>
+                                <a class="post_name"
+                                   onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', 'common'); }"
+                                   href="/post/247481/">Год npm в цифрах: 2014</a>&nbsp;<span class="count">(33)</span>
+                            </div>
+                            <div class="post_item">
+                                <span class="bull"></span>
+                                <a class="post_name"
+                                   onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', 'common'); }"
+                                   href="/post/191592/">ВКонтакте Node JS SDK</a>&nbsp;<span class="count">(5)</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="comments_list " id="comments">
+
+                    <h2 class="title ">Комментарии (<span
+                            id="comments_count">7</span>)
+
+
+                    </h2>
+
+
+
+                    <div class="comment_item" id="comment_8179319" >
+
+                        <span class="parent_id" data-parent_id="0"></span>
+                        <div class="comment_body ">
+                            <div class="info  " rel="8179319">
+                                <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+                                <div id="voting_8179319" class="voting   ">
+                                    <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                    <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                    <div class="mark positive ">
+                                        <span class="score" title="Всего 6: &uarr;4 и &darr;2">+2</span>
+                                    </div>
+                                </div>
+                                <a href="http://habrahabr.ru/users/bubuq/" class="avatar"><img src="//habrastorage.org/getpro/habr/avatars/544/05f/a62/54405fa62a614bd561ce93c035ad7938_small.jpg" alt="" /></a>
+                                <a href="http://habrahabr.ru/users/bubuq/" class="username">bubuq</a>
+                                <time>14 декабря 2014 в 05:05</time>
+
+                                <a href="#comment_8179319" class="link_to_comment">#</a>
+
+                                <span class="to_chidren"></span>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="message html_format ">
+                                «Отличный модуль» promise обновлялся последний раз два года назад, вместо него есть отличные модули bluebird и Q. Очень много информации в этом тексте устарело. Да и не создаёт никто http сервер на голой ноде, разве что в качестве школьного задания.
+                            </div>
+                            <div class="reply_form_placeholder"></div>
+                            <div class="reply">
+
+                            </div>
+                        </div>
+
+                        <div class="reply_comments" id="reply_comments_8179319">
+                            <div class="comment_item" id="comment_8179371" >
+
+                                <span class="parent_id" data-parent_id="8179319"></span>
+                                <div class="comment_body ">
+                                    <div class="info  " rel="8179371">
+                                        <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+                                        <div id="voting_8179371" class="voting   ">
+                                            <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                            <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                            <div class="mark positive ">
+                                                <span class="score" title="Всего 1: &uarr;1 и &darr;0">+1</span>
+                                            </div>
+                                        </div>
+                                        <a href="http://habrahabr.ru/users/ZoomLS/" class="avatar"><img src="//habrastorage.org/getpro/habr/avatars/0b0/473/e06/0b0473e064e29fe79fc09267fe868c1e_small.png" alt="" /></a>
+                                        <a href="http://habrahabr.ru/users/ZoomLS/" class="username">ZoomLS</a>
+                                        <time>14 декабря 2014 в 09:36<span class="time_changed"> (комментарий был изменён)</span></time>
+
+                                        <a href="#comment_8179371" class="link_to_comment">#</a>
+
+                                        <div class="show_tree" data-id="8179371" data-parent_id="8179319" title="Показать ветку комментариев">&#8629;</div>
+                                        <a href="#comment_8179319" data-id="8179371" data-parent_id="8179319" class="to_parent">&uarr;</a>
+                                        <span class="to_chidren"></span>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="message html_format ">
+                                        &gt;&gt;не создаёт никто http сервер на голой ноде, разве что в качестве школьного задания.<br/>
+                                        А почему? Всё таки нужен nginx или что?
+                                    </div>
+                                    <div class="reply_form_placeholder"></div>
+                                    <div class="reply">
+
+                                    </div>
+                                </div>
+
+                                <div class="reply_comments" id="reply_comments_8179371">
+                                    <div class="comment_item" id="comment_8179399" >
+
+                                        <span class="parent_id" data-parent_id="8179371"></span>
+                                        <div class="comment_body ">
+                                            <div class="info  " rel="8179399">
+                                                <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+                                                <div id="voting_8179399" class="voting   ">
+                                                    <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                                    <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                                    <div class="mark positive ">
+                                                        <span class="score" title="Всего 5: &uarr;3 и &darr;2">+1</span>
+                                                    </div>
+                                                </div>
+                                                <a href="http://habrahabr.ru/users/AYShestakov/" class="avatar"><img src="//habrastorage.org/getpro/habr/avatars/0c5/64f/34e/0c564f34e3a66b620d42b00552ebb9a9_small.jpg" alt="" /></a>
+                                                <a href="http://habrahabr.ru/users/AYShestakov/" class="username">AYShestakov</a>
+                                                <time>14 декабря 2014 в 11:23</time>
+
+                                                <a href="#comment_8179399" class="link_to_comment">#</a>
+
+                                                <div class="show_tree" data-id="8179399" data-parent_id="8179371" title="Показать ветку комментариев">&#8629;</div>
+                                                <a href="#comment_8179371" data-id="8179399" data-parent_id="8179371" class="to_parent">&uarr;</a>
+                                                <span class="to_chidren"></span>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="message html_format ">
+                                                Скорее Express и Meteor
+                                            </div>
+                                            <div class="reply_form_placeholder"></div>
+                                            <div class="reply">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="reply_comments" id="reply_comments_8179399">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="comment_item" id="comment_8179551" >
+
+                                <span class="parent_id" data-parent_id="8179319"></span>
+                                <div class="comment_body ">
+                                    <div class="info  " rel="8179551">
+                                        <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+                                        <div id="voting_8179551" class="voting   ">
+                                            <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                            <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                            <div class="mark positive ">
+                                                <span class="score" title="Всего 3: &uarr;2 и &darr;1">+1</span>
+                                            </div>
+                                        </div>
+                                        <a href="http://habrahabr.ru/users/AndreyChizh/" class="avatar"><img src="//habrastorage.org/getpro/habr/avatars/e7f/8e5/0ae/e7f8e50ae426116c1dba14a61c66180d_small.jpg" alt="" /></a>
+                                        <a href="http://habrahabr.ru/users/AndreyChizh/" class="username">AndreyChizh</a>
+                                        <time>14 декабря 2014 в 14:05</time>
+
+                                        <a href="#comment_8179551" class="link_to_comment">#</a>
+
+                                        <div class="show_tree" data-id="8179551" data-parent_id="8179319" title="Показать ветку комментариев">&#8629;</div>
+                                        <a href="#comment_8179319" data-id="8179551" data-parent_id="8179319" class="to_parent">&uarr;</a>
+                                        <span class="to_chidren"></span>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="message html_format ">
+                                        <blockquote>не создаёт никто http сервер на голой ноде, разве что в качестве школьного задания. </blockquote><br/>
+                                        Откуда такая информация? <br/>
+                                        Есть нагруженное сетевое приложение и все на модулях http/https. Все быстро, стабильно и «немного» сложнее школьного задания :)
+                                    </div>
+                                    <div class="reply_form_placeholder"></div>
+                                    <div class="reply">
+
+                                    </div>
+                                </div>
+
+                                <div class="reply_comments" id="reply_comments_8179551">
+                                    <div class="comment_item" id="comment_8179569" >
+
+                                        <span class="parent_id" data-parent_id="8179551"></span>
+                                        <div class="comment_body ">
+                                            <div class="info  " rel="8179569">
+                                                <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+                                                <div id="voting_8179569" class="voting   ">
+                                                    <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                                    <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                                    <div class="mark  ">
+                                                        <span class="score" title="Всего 2: &uarr;1 и &darr;1">0</span>
+                                                    </div>
+                                                </div>
+                                                <a href="http://habrahabr.ru/users/bubuq/" class="avatar"><img src="//habrastorage.org/getpro/habr/avatars/544/05f/a62/54405fa62a614bd561ce93c035ad7938_small.jpg" alt="" /></a>
+                                                <a href="http://habrahabr.ru/users/bubuq/" class="username">bubuq</a>
+                                                <time>14 декабря 2014 в 14:26</time>
+
+                                                <a href="#comment_8179569" class="link_to_comment">#</a>
+
+                                                <div class="show_tree" data-id="8179569" data-parent_id="8179551" title="Показать ветку комментариев">&#8629;</div>
+                                                <a href="#comment_8179551" data-id="8179569" data-parent_id="8179551" class="to_parent">&uarr;</a>
+                                                <span class="to_chidren"></span>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="message html_format ">
+                                                Никто значит ~95% граждан. Понятно, что всегда есть граничные случаи, можно и на ассемблере написать сервер. Но как правило, нода синонимична connect/express.
+                                            </div>
+                                            <div class="reply_form_placeholder"></div>
+                                            <div class="reply">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="reply_comments" id="reply_comments_8179569">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="comment_item" id="comment_8179615" >
+
+                                <span class="parent_id" data-parent_id="8179319"></span>
+                                <div class="comment_body ">
+                                    <div class="info  " rel="8179615">
+                                        <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+                                        <div id="voting_8179615" class="voting   ">
+                                            <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                            <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                            <div class="mark positive ">
+                                                <span class="score" title="Всего 3: &uarr;3 и &darr;0">+3</span>
+                                            </div>
+                                        </div>
+                                        <a href="http://habrahabr.ru/users/lany/" class="avatar"><img src="http://habrahabr.ru/i/avatars/stub-user-small.gif" alt="" /></a>
+                                        <a href="http://habrahabr.ru/users/lany/" class="username">lany</a>
+                                        <time>14 декабря 2014 в 15:56</time>
+
+                                        <a href="#comment_8179615" class="link_to_comment">#</a>
+
+                                        <div class="show_tree" data-id="8179615" data-parent_id="8179319" title="Показать ветку комментариев">&#8629;</div>
+                                        <a href="#comment_8179319" data-id="8179615" data-parent_id="8179319" class="to_parent">&uarr;</a>
+                                        <span class="to_chidren"></span>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="message html_format ">
+                                        С книжками в целом всегда так. По суперактуальным технологиям, которые появились в прошлом месяце, вы не увидите хороших книжек, тем более с уже готовым переводом. Для того, чтобы быть на переднем крае, читайте статьи. А книжки оставьте тем, кто что-то хочет освоить с нуля и основательно (а потом статьями подтянется до суперактуального уровня).
+                                    </div>
+                                    <div class="reply_form_placeholder"></div>
+                                    <div class="reply">
+
+                                    </div>
+                                </div>
+
+                                <div class="reply_comments" id="reply_comments_8179615">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="comment_item" id="comment_8179637" >
+
+                        <span class="parent_id" data-parent_id="0"></span>
+                        <div class="comment_body ">
+                            <div class="info  " rel="8179637">
+                                <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+                                <div id="voting_8179637" class="voting   ">
+                                    <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                    <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                                    <div class="mark positive ">
+                                        <span class="score" title="Всего 3: &uarr;3 и &darr;0">+3</span>
+                                    </div>
+                                </div>
+                                <a href="http://habrahabr.ru/users/customizer/" class="avatar"><img src="http://habrahabr.ru/i/avatars/stub-user-small.gif" alt="" /></a>
+                                <a href="http://habrahabr.ru/users/customizer/" class="username">customizer</a>
+                                <time>14 декабря 2014 в 16:38</time>
+
+                                <a href="#comment_8179637" class="link_to_comment">#</a>
+
+                                <span class="to_chidren"></span>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="message html_format ">
+                                Да, книжка немножко устарела. Но есть возможность, именно для этого случая, поправить дело.<br/>
+                                Предлагаю знающим людям написать комментарии к каждой главе этой книги с описанием современной ситуации. Скажем, строк по 50 на описание одной фичи.<br/>
+                                Желательно придерживаться стиля книги М.Хавербеке.<br/>
+                                В итоге должна получиться актуальная вещь.<br/>
+                                <br/>
+                                Со своей стороны, обязуюсь включить эти комментарии-дополнения в CHM-версию книги. Что-то вроде — «Выразительный JavaScript + комментарии Хабрахабр».
+                            </div>
+                            <div class="reply_form_placeholder"></div>
+                            <div class="reply">
+
+                            </div>
+                        </div>
+
+                        <div class="reply_comments" id="reply_comments_8179637">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <p class="for_users_only_msg">Только зарегистрированные пользователи могут оставлять комментарии. <a href="https://habrahabr.ru/auth/login/">Войдите</a>, пожалуйста.</p>
+
+
+
+
+                <form action="/json/favorites/" method="post" id="edit_tags_form" class="hidden">
+                    <input type="hidden" name="action" value="add" />
+                    <input type="hidden" name="ti" value="0" />
+                    <input type="hidden" name="tt" value="0" />
+                    <label>Пометьте топик понятными вам метками, если хотите</label>
+                    <input type="text" name="tags_string" class="tags_string" />
+                    <div class="description">Метки лучше разделять запятой. Например: <i>общение, социальные сети, myspace.com, подростки, мердок</i></div>
+                    <input type="submit" value="Сохранить" class="submit" /> или <a href="#" class="close" onclick="return close_edit_tags()">закрыть</a>
+                </form>
+
+            </div>
+
+            <div class="sidebar_right">
+                <div class="no_please_one_one_one" style="margin-bottom: 20px;">
+                    <div id="adriver_banner_1863387959"></div>
+
+                    <script type="text/javascript">
+                        function show_bn1_block(name, url){
+                            console.log('show' + name);
+                            if( typeof(name) !== 'undefined'){
+                                $.get('/html/'+name+'/1445500984/', function(html){
+                                    $('#adriver_banner_1863387959').html(html);
+                                    if( typeof(url) !== 'undefined'){
+                                        $('.'+name+'_inner_banner .block_url').attr('href', url);
+                                    }
+                                });
+                            }
+                        }
+
+                        function show_bn1_new_block(name, url){
+                            if( typeof(name) !== 'undefined'){
+                                $('#adriver_banner_1863387959').html('<iframe src="http://special.habrahabr.ru/api/htmlblock300/'+name+'/?url='+encodeURIComponent(url)+'" width="100%" height="500"></iframe>')
+                            }
+                        }
+
+                        $(function(){
+
+
+
+                            // конвертирут кириллицу в cp1251
+                            // doc: http://www.adriver.ru/doc/edu-n/pub/settargt/standtrgt/scentrgt/scentrgt.html#9
+                            function esc(s){
+                                for(var i=0,l=s.length,r='';i<l;i++){
+                                    var c = s.charCodeAt(i);r += String.fromCharCode(c>1039&&c<1104 ? c-848 : c==1105 ? 184 : c==1025 ? 168 : c);
+                                }
+                                return r;
+                            }
+
+                            var keyword = '';
+                            if (typeof crtg_content !== 'undefined' && crtg_content) { keyword = crtg_content; }
+
+
+                            var custom = {4:ar_duo1};
+                            custom[1] = 'nodejs';
+                            custom[2] = 'programming';
+                            custom[3] = 'javascript';
+
+                            if ( typeof(adriver) !== 'undefined' ){
+                                new adriver("adriver_banner_1863387959", {sid: 176776, bt: 52, bn: 1, custom: custom, keyword: keyword});
+                            }
+
+                            var check_scroll_position10 = function() {
+                                var height = $(window).height();
+                                var scrollTop = $(window).scrollTop();
+                                if ($('#adriver_banner_1863387959').length){
+                                    var blockTop = $('#adriver_banner_1863387959').position().top;
+                                }
+                                var show = scrollTop < (blockTop + 900) && typeof(bn2Showed) != 'undefined';
+                                if( show ){
+                                    $( window ).off('scroll', check_scroll_position10);
+                                    $( window ).trigger('show_bn10');
+                                }
+                            };
+
+                            $( window ).on('show_bn10', function(){
+                                $('#adriver_banner_1863387959').html('');
+                                var pz = Math.floor(Math.random()*3+1);
+                                var uu = new adriver("adriver_banner_1863387959", { sid: 176776, bt: 52, bn: 1, pz: pz});
+                                uu.reload();
+                            });
+
+                            $( window ).on('scroll', check_scroll_position10);
+
+                        }());
+
+                    </script>
+                </div>
+
+
+
+                <div class="block daily_best_posts">
+
+
+                    <div class="title">Популярное за сутки</div>
+                    <div class="posts_list">
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/pvs-studio/blog/269265/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Проверка Wine: Год спустя</a>&nbsp;<a href="http://habrahabr.ru/company/pvs-studio/blog/269265/#comments" class="count">14</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/abbyy/blog/269273/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Алгоритм извлечения информации в ABBYY Compreno. Часть 2</a>&nbsp;
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/microsoft/blog/269261/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Назад в будущее, или Hello World сегодня и тридцать лет назад</a>&nbsp;<a href="http://habrahabr.ru/company/microsoft/blog/269261/#comments" class="count">42</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/croc/blog/269289/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Как можно сделать отказоустойчивую систему хранения данных из отечественных серверов</a>&nbsp;<a href="http://habrahabr.ru/company/croc/blog/269289/#comments" class="count">9</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/1cloud/blog/269247/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Регулярные тайм-ауты соединения: Кейс Ticketmaster</a>&nbsp;<a href="http://habrahabr.ru/company/1cloud/blog/269247/#comments" class="count">3</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/post/269269/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Let's Encrypt теперь доверенный</a>&nbsp;<a href="http://habrahabr.ru/post/269269/#comments" class="count">4</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/post/269301/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Подводные камни в облаках, или проваленный тест онлайн-редакторов на docx-файле</a>&nbsp;<a href="http://habrahabr.ru/post/269301/#comments" class="count">3</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/ua-hosting/blog/269271/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Планировщик Go</a>&nbsp;<a href="http://habrahabr.ru/company/ua-hosting/blog/269271/#comments" class="count">5</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/hp/blog/269255/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">HP Helion OpenStack Carrier Grade – облако для операторов связи</a>&nbsp;<a href="http://habrahabr.ru/company/hp/blog/269255/#comments" class="count">4</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/pushall/blog/269263/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Альфа-версия SocketPush — универсальные уведомления для всех браузеров + 3 миллиона бесплатных уведомлений</a>&nbsp;<a href="http://habrahabr.ru/company/pushall/blog/269263/#comments" class="count">5</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/post/269299/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Изучаем net/context в Go</a>&nbsp;
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/post/269307/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">TemplateEngine.Docx — .NET OpenSource шаблонизатор docx документов</a>&nbsp;
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/intel/blog/269253/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Камера Intel RealSense R200 — образцы кода</a>&nbsp;
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/post/269285/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">3 способа использовать оператор?.. неправильно в C# 6</a>&nbsp;<a href="http://habrahabr.ru/post/269285/#comments" class="count">26</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/post/269239/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Другой ответ на вопрос «Нужен ли мне Dart?»</a>&nbsp;<a href="http://habrahabr.ru/post/269239/#comments" class="count">3</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/post/269275/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Создание базы данных MySQL в рамках Microsoft Azure для студентов</a>&nbsp;<a href="http://habrahabr.ru/post/269275/#comments" class="count">2</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/post/269303/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Изучение React — для чего, откуда, как?</a>&nbsp;<a href="http://habrahabr.ru/post/269303/#comments" class="count">22</a>
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/infopulse/blog/269313/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Microsoft добавит поддержку компилятора Clang в ноябрьском обновлении Visual Studio 2015</a>&nbsp;
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/post/269315/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Конвертация видео файла в gif</a>&nbsp;
+                        </div>
+                        <div class="post_item">
+
+
+
+
+
+
+
+                            <a href="http://habrahabr.ru/company/luxoft/blog/269305/"
+                               onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+                               class="post_name">Правила безопасного программирования на С: прошлое, настоящее и будущее</a>&nbsp;
+                        </div>
+                    </div>
+                    <div class="all"><a href="/top/">все лучшие</a></div>
+                </div>
+
+
+                <div class="block similar_questions">
+                    <div class="title">Вопросы по теме</div>
+
+                    <div class="posts_list">
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/259035">Как проксировать загрузку файла через Node.js?</a>
+                        </div>
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/259024">Как настроить watcher для Webstorm?</a>
+                        </div>
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/259013">Как направить поток с вебкамеры на сервер node js?</a>
+                        </div>
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/258998">Как в npm удалить через командную строку только 'production'-пакеты (которые указаны в “dependencies” в package.json)?</a>
+                        </div>
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/258700">Какие хорошие книги по node,js?</a>
+                        </div>
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/258625">Как реализовать обмен между двумя Node.js?</a>
+                        </div>
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/258615">Какие преимущества у одностраничных веб-приложений (SPA)?</a>
+                        </div>
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/258560">Как правильно выставить заголовок ответа в IAS?</a>
+                        </div>
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/258558">Как разрешить кросс-доменные соединение с сервером Node.js и Socket.io?</a>
+                        </div>
+                        <div class="post_item">
+                            <a class="post_name"  data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" href="http://toster.ru/q/258519">Чем пристроить фильтры в xls документ на NodeJS?</a>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="xixixi">
+                    <div id="adriver_banner_480931290" class="adbanner"></div>
+
+                    <script type="text/javascript">
+                        function show_bn2_block(name, url){
+                            if( typeof(name) !== 'undefined'){
+                                $.get('/html/'+name+'/1445500984/', function(html){
+                                    $('#adriver_banner_480931290').html(html);
+                                    if( typeof(url) !== 'undefined'){
+                                        $('.'+name+'_inner_banner .block_url').attr('href', url);
+                                    }
+                                })
+                            }
+                        }
+
+                        $(function(){
+
+                            var check_scroll_position = function() {
+                                var height = $(window).height();
+                                var scrollTop = $(window).scrollTop();
+                                var scrollBottom = $(window).scrollTop() + height;
+                                if($('#adriver_banner_480931290').length){
+                                    var blockTop = $('#adriver_banner_480931290').position().top;
+                                }
+                                var show = scrollTop < blockTop && blockTop < scrollBottom;
+                                if( show ){
+                                    $( window ).off('scroll', check_scroll_position);
+                                    $( window ).trigger('show_bn2');
+                                    bn2Showed = true;
+                                }
+                            };
+
+                            $( window ).on('show_bn2', function(){
+                                var keyword = '';
+                                if (typeof crtg_content !== 'undefined' && crtg_content) { keyword = crtg_content; }
+                                var custom = {4:ar_duo1};
+                                custom[1] = 'nodejs';
+                                custom[2] = 'programming';
+                                custom[3] = 'javascript';
+
+                                if ( typeof(adriver) !== 'undefined' ){
+                                    new adriver("adriver_banner_480931290", {sid: 176776, bt: 52, bn: 2, custom: custom, keyword: keyword});
+                                }
+                            });
+
+                            $( window ).on('scroll', check_scroll_position);
+
+                        });
+                    </script>
+
+                </div>
+
+
+
+                <div class="block best_company">
+
+                    <div class="title">Компания дня <img src="/images/bg_cicle_help.png" title="
+Компания, чья публикация набрала максимальное количество баллов<br>
+среди всех опубликованных в корпоративных блогах публикаций за <br>
+прошедшие сутки. Учитываются публикации, для которых истек срок голосования <br>(3 дня с момента публикации)." class="help-tip"></div>
+
+                    <div class="company_info">
+                        <div class="name">
+                            <img class="favicon" src="//habrastorage.org/getpro/habr/companies/1a9/3a6/c60/1a93a6c606da91af981d0c1def87e382_small.png" alt="ua-hosting.company" height="16" width="16" />
+                            <div class="company_name"><a href="http://habrahabr.ru/company/ua-hosting/" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'best_company', 'title'); }" class="title">ua-hosting.company</a></div>
+                        </div>
+
+                        <p>Последняя публикация:
+                            <a href="http://habrahabr.ru/company/ua-hosting/blog/269271/" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'best_company', 'post'); }">Планировщик Go</a>
+                        </p>
+
+                        <div class="buttons">
+                            <div id="fans_count">502 подписчика</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+        <script>
+            window._yaparams = {'hubs':[]};
+            // hubs to GA
+            _yaparams['hubs'].push('nodejs (Node.JS)');
+            _yaparams['hubs'].push('programming (Программирование)');
+            _yaparams['hubs'].push('javascript (JavaScript)');
+        </script>
+
+
+
+
+        <div class="column-wrapper column-wrapper_bottom column-wrapper_bordered">
+            <div class="content_left">
+                <div class="columns-group columns-group_broadcasts">
+
+                    <div class="columns-group__column live-broadcast live-broadcast_habrahabr">
+                        <h2 class="live-broadcast__title">Что обсуждают</h2>
+                        <div class="live-broadcast__tabs tabs" id="broadcast_tabs_comments">
+                            <ul class="tabs__menu tabs__menu_comments menu menu_inline">
+                                <li class="menu__item"><a href="#broadcast_comments_now" class="menu__item-tab">Сейчас</a></li>
+                                <li class="menu__item"><a href="#broadcast_comments_yesterday" class="menu__item-tab">Вчера</a></li>
+                                <li class="menu__item"><a href="#broadcast_comments_week" class="menu__item-tab">Неделя</a></li>
+                                <li class="menu__item"><a href="#broadcast_comments_month" class="menu__item-tab">Месяц</a></li>
+                            </ul>
+
+                            <div class="tabs__content" id="broadcast_comments_now">
+                                <ul class="content-list content-list_comments" >
+                                    <li class="content-list__item">
+                                        <a href="/post/269307" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">TemplateEngine.Docx — .NET OpenSource шаблонизатор docx документов</a>
+                                        <a href="/post/269307#comments" class="content-list__item-counter">1</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269265" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Проверка Wine: Год спустя</a>
+                                        <a href="/post/269265#comments" class="content-list__item-counter">16</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268951" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Достаточно Git-а, чтобы быть (менее) опасным</a>
+                                        <a href="/post/268951#comments" class="content-list__item-counter">231</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269117" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Сетевые технологии в высшем образовании. Печальный опыт поиска молодых специалистов</a>
+                                        <a href="/post/269117#comments" class="content-list__item-counter">424</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269199" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Создание GUI приложений на PHP</a>
+                                        <a href="/post/269199#comments" class="content-list__item-counter">33</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tabs__content" id="broadcast_comments_yesterday">
+                                <ul class="content-list content-list_comments" >
+                                    <li class="content-list__item">
+                                        <a href="/post/269221" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Пишу CMS на PHP. Часть 1</a>
+                                        <a href="/post/269221#comments" class="content-list__item-counter">105</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269227" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">С нуля до 700 гигабит в секунду — как отгружает видео один из крупнейших видеохостингов России</a>
+                                        <a href="/post/269227#comments" class="content-list__item-counter">48</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269261" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Назад в будущее, или Hello World сегодня и тридцать лет назад</a>
+                                        <a href="/post/269261#comments" class="content-list__item-counter">42</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269237" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Способы найти количество цифр в числе</a>
+                                        <a href="/post/269237#comments" class="content-list__item-counter">33</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269213" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Let's Encrypt объявил о кросс-сертификации от IdenTrust</a>
+                                        <a href="/post/269213#comments" class="content-list__item-counter">31</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tabs__content" id="broadcast_comments_week">
+                                <ul class="content-list content-list_comments" >
+                                    <li class="content-list__item">
+                                        <a href="/post/269117" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Сетевые технологии в высшем образовании. Печальный опыт поиска молодых специалистов</a>
+                                        <a href="/post/269117#comments" class="content-list__item-counter">424</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268951" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Достаточно Git-а, чтобы быть (менее) опасным</a>
+                                        <a href="/post/268951#comments" class="content-list__item-counter">231</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268899" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Скандал вокруг Volkswagen и роль программистов в нём</a>
+                                        <a href="/post/268899#comments" class="content-list__item-counter">201</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268949" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Памятка евангелиста PostgreSQL: критикуем MySQL грамотно</a>
+                                        <a href="/post/268949#comments" class="content-list__item-counter">164</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268871" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Composer — the right way</a>
+                                        <a href="/post/268871#comments" class="content-list__item-counter">139</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tabs__content" id="broadcast_comments_month">
+                                <ul class="content-list content-list_comments" >
+                                    <li class="content-list__item">
+                                        <a href="/post/269117" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Сетевые технологии в высшем образовании. Печальный опыт поиска молодых специалистов</a>
+                                        <a href="/post/269117#comments" class="content-list__item-counter">424</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268683" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Польза проверяемых исключений весьма сомнительна, а вред очевиден</a>
+                                        <a href="/post/268683#comments" class="content-list__item-counter">319</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268631" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Возможности PostgreSQL, которых нет в MySQL, и наоборот</a>
+                                        <a href="/post/268631#comments" class="content-list__item-counter">307</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268411" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Перевод: Один год с Go</a>
+                                        <a href="/post/268411#comments" class="content-list__item-counter">300</a>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/267507" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'comment'); }" class="content-list__item-link">Еще один способ отключения сбора телеметрии в OC Windows 10</a>
+                                        <a href="/post/267507#comments" class="content-list__item-counter">240</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="columns-group__column live-broadcast live-broadcast_habrahabr">
+                        <h2 class="live-broadcast__title">Самое читаемое</h2>
+                        <div class="live-broadcast__tabs tabs" id="broadcast_tabs_posts">
+                            <ul class="tabs__menu tabs__menu_posts menu menu_inline">
+                                <li class="menu__item"><a href="#broadcast_posts_now" class="menu__item-tab">Сейчас</a></li>
+                                <li class="menu__item"><a href="#broadcast_posts_yesterday" class="menu__item-tab">Вчера</a></li>
+                                <li class="menu__item"><a href="#broadcast_posts_week" class="menu__item-tab">Неделя</a></li>
+                                <li class="menu__item"><a href="#broadcast_posts_month" class="menu__item-tab">Месяц</a></li>
+                            </ul>
+
+                            <div class="tabs__content" id="broadcast_posts_now">
+                                <ul class="content-list content-list_comments">
+                                    <li class="content-list__item">
+                                        <a href="/post/269289" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Как можно сделать отказоустойчивую систему хранения данных из отечественных серверов</a>
+                  <span class="content-list__item-counter">7k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269285" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">3 способа использовать оператор?.. неправильно в C# 6</a>
+                  <span class="content-list__item-counter">6k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269301" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Подводные камни в облаках, или проваленный тест онлайн-редакторов на docx-файле</a>
+                  <span class="content-list__item-counter">2k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269261" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Назад в будущее, или Hello World сегодня и тридцать лет назад</a>
+                  <span class="content-list__item-counter">31k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269265" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Проверка Wine: Год спустя</a>
+                  <span class="content-list__item-counter">24k<span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tabs__content" id="broadcast_posts_yesterday">
+                                <ul class="content-list content-list_comments">
+                                    <li class="content-list__item">
+                                        <a href="/post/269261" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Назад в будущее, или Hello World сегодня и тридцать лет назад</a>
+                  <span class="content-list__item-counter">31k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269265" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Проверка Wine: Год спустя</a>
+                  <span class="content-list__item-counter">24k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269227" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">С нуля до 700 гигабит в секунду — как отгружает видео один из крупнейших видеохостингов России</a>
+                  <span class="content-list__item-counter">16k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269207" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Angular2 близко</a>
+                  <span class="content-list__item-counter">13k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269243" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Microsoft исправила баги в драйверах Windows</a>
+                  <span class="content-list__item-counter">9k<span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tabs__content" id="broadcast_posts_week">
+                                <ul class="content-list content-list_comments">
+                                    <li class="content-list__item">
+                                        <a href="/post/269059" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Детективная история — Что общего между auto.ru и brazzers?</a>
+                  <span class="content-list__item-counter">64k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268899" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Скандал вокруг Volkswagen и роль программистов в нём</a>
+                  <span class="content-list__item-counter">55k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268951" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Достаточно Git-а, чтобы быть (менее) опасным</a>
+                  <span class="content-list__item-counter">48k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/269117" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Сетевые технологии в высшем образовании. Печальный опыт поиска молодых специалистов</a>
+                  <span class="content-list__item-counter">46k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/268845" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Зачем нужен свободный код и как на нем зарабатывать</a>
+                  <span class="content-list__item-counter">45k<span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tabs__content" id="broadcast_posts_month">
+                                <ul class="content-list content-list_comments">
+                                    <li class="content-list__item">
+                                        <a href="/post/268421" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">USB killer v2.0</a>
+                  <span class="content-list__item-counter">171k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/267187" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Как я стал программистом. Путь от питерского бездомного до Senior Developer-а за 6 лет</a>
+                  <span class="content-list__item-counter">142k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/267507" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">Еще один способ отключения сбора телеметрии в OC Windows 10</a>
+                  <span class="content-list__item-counter">102k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/266709" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">HackerSIM: подделка любого телефонного номера. CTF по социальной инженерии</a>
+                  <span class="content-list__item-counter">98k<span>
+                                    </li>
+                                    <li class="content-list__item">
+                                        <a href="/post/267595" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="content-list__item-link">19 советов по повседневной работе с Git</a>
+                  <span class="content-list__item-counter">88k<span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="top-materials top-materials_geektimes">
+                    <h2 class="top-materials__title">
+                        <a href="http://geektimes.ru" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="top-materials__title-link">Лучшее на Geektimes</a>
+                    </h2>
+
+                    <div class="top-materials__content">
+                        <ol class="content-list content-list_top-materials">
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://geektimes.ru/post/264372/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Эволюция носителей информации: о перфокартах, магнитных плёнках и дискетах</a>&nbsp;&nbsp;<a href="http://geektimes.ru/post/264372/#comments" class="content-list__item-counter">(24)</a>
+                                </div>
+                            </li>
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://geektimes.ru/post/264402/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Почему я прощаюсь с Apple, Google и Microsoft</a>&nbsp;&nbsp;<a href="http://geektimes.ru/post/264402/#comments" class="content-list__item-counter">(82)</a>
+                                </div>
+                            </li>
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://geektimes.ru/post/264362/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Без проводов. Настоящее и будущее беспроводных зарядных устройств</a>&nbsp;&nbsp;<a href="http://geektimes.ru/post/264362/#comments" class="content-list__item-counter">(8)</a>
+                                </div>
+                            </li>
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://geektimes.ru/post/264386/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Что происходит не случайно? [Озвучка Vert Dider]</a>&nbsp;&nbsp;<a href="http://geektimes.ru/post/264386/#comments" class="content-list__item-counter">(2)</a>
+                                </div>
+                            </li>
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://geektimes.ru/post/263754/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Детские гаджеты: чем удивить, развлечь и позабавить детей от 2+ лет</a>&nbsp;&nbsp;<a href="http://geektimes.ru/post/263754/#comments" class="content-list__item-counter">(10)</a>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <ul class="top-materials__menu menu menu_inline">
+                            <li class="menu__item">
+                                <a href="http://geektimes.ru/" target="blank" class="menu__item-link" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Все публикации</a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="http://geektimes.ru/hubs/" target="blank" class="menu__item-link" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Популярные хабы</a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="http://geektimes.ru/companies/" target="blank" class="menu__item-link" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Компании</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+                <div class="top-materials top-materials_megamozg">
+                    <h2 class="top-materials__title">
+                        <a href="http://megamozg.ru" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="top-materials__title-link">Лучшее на Мегамозге</a>
+                    </h2>
+
+                    <div class="top-materials__content">
+                        <ol class="content-list content-list_top-materials">
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://megamozg.ru/post/20468/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Western Digital покупает SanDisk за $19 миллиардов</a>&nbsp;&nbsp;
+                                </div>
+                            </li>
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://megamozg.ru/post/20474/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Tele2 привлекает абонентов сверхнизкими тарифами</a>&nbsp;&nbsp;<a href="http://megamozg.ru/post/20474/#comments" class="content-list__item-counter">(6)</a>
+                                </div>
+                            </li>
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://megamozg.ru/post/20466/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">LinkedIn поможет найти второго Эрика Шмидта, Уоррена Баффетта или Опру Уинфри</a>&nbsp;&nbsp;
+                                </div>
+                            </li>
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://megamozg.ru/post/20490/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Представьте мир, в котором не требуется зарабатывать на жизнь</a>&nbsp;&nbsp;<a href="http://megamozg.ru/post/20490/#comments" class="content-list__item-counter">(34)</a>
+                                </div>
+                            </li>
+                            <li class="content-list__item">
+                                <div class="content-list__item_wrap">
+                                    <a class="content-list__item-link" href="http://megamozg.ru/post/20464/" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Советы по улучшению push–уведомлений</a>&nbsp;&nbsp;<a href="http://megamozg.ru/post/20464/#comments" class="content-list__item-counter">(6)</a>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <ul class="top-materials__menu menu menu_inline">
+                            <li class="menu__item">
+                                <a href="http://megamozg.ru/" target="_blank" class="menu__item-link" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Все публикации</a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="http://megamozg.ru/hubs/" target="_blank" class="menu__item-link" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Популярные хабы</a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="http://megamozg.ru/companies/startups/" target="_blank" class="menu__item-link" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Стартапы</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+
+                <div class="columns-group columns-group_promo">
+
+
+                    <div class="columns-group__column promo-block promo-block_vacancies">
+                        <h2 class="promo-block__title">
+                            <a href="https://moikrug.ru/vacancies" target="_blank" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="promo-block__title-link">Вакансии на «Моём круге»</a>
+                        </h2>
+
+                        <div class="promo-block__content">
+                            <ul class="content-list content-list_comments" >
+                                <li class="content-list__item vacancy ">
+                                    <a href="http://moikrug.ru/vacancies/1000021676" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">Разработчик Erlang</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item vacancy ">
+                                    <a href="http://moikrug.ru/vacancies/1000021677" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">Drupal Junior/Middle backend web developer</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item vacancy ">
+                                    <a href="http://moikrug.ru/vacancies/1000014242" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">Разработчик мобильных приложений Android</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item vacancy ">
+                                    <a href="http://moikrug.ru/vacancies/1000013347" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">Flash-разработчик</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item vacancy ">
+                                    <a href="http://moikrug.ru/vacancies/1000014243" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">Разработчик мобильных приложений iOS</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item vacancy vacancy_marked">
+                                    <a href="http://moikrug.ru/vacancies/1000021244" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">Ведущий PHP разработчик</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item vacancy vacancy_marked">
+                                    <a href="http://moikrug.ru/vacancies/1000014617" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">Senior Frontend-разработчик</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item vacancy ">
+                                    <a href="http://moikrug.ru/vacancies/1000021259" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">Талантливый фронт-енд разработчик</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item vacancy ">
+                                    <a href="http://moikrug.ru/vacancies/1000014923" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">WEB-разработчик (1C-Битрикс)</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item vacancy ">
+                                    <a href="http://moikrug.ru/vacancies/1000014587" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="content-list__item-link vacancy__title">Android-разработчик</a>
+                                    <div class="vacancy__attrs attrs">
+                                        <span class="attrs__item">Москва</span>
+                                        <span class="attrs__item">Полный рабочий день</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="promo-block__footer">
+                            <a href="https://moikrug.ru/info/service?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="promo-block__footer-link promo-block__footer-link_left">разместить вакансию</a>
+                            <a href="https://moikrug.ru/vacancies" data-utm="?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="promo-block__footer-link promo-block__footer-link_right">все вакансии</a>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="columns-group__column promo-block promo-block_freelansim-tasks">
+                        <h2 class="promo-block__title">
+                            <a href="http://freelansim.ru" target="_blank" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="promo-block__title-link">Заказы на «Фрилансим»</a>
+                        </h2>
+
+                        <div class="promo-block__content">
+                            <ul class="content-list content-list_comments" >
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126175" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Подготовить 100500 логотипов известных брендов</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">6 откликов</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126169" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Сделать изображение с 3D модели</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">2 отклика</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126165" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Сделать иллюстрацию в векторе</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">5 откликов</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126161" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Дизайн интерфейса для игры</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">10 откликов</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126157" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Консультация по настройке AWS</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">2 отклика</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126153" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Разработать клиентское приложение под Android</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">5 откликов</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126151" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Разработать клиентское приложение по iOS</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">4 отклика</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126147" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Аналог KeylessGo для входной двери</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">1 отклик</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126145" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Фронтэнд страницы</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">3 отклика</span>
+                                    </div>
+                                </li>
+                                <li class="content-list__item task ">
+                                    <a href="http://freelansim.ru/tasks/126139" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="content-list__item-link task__title">Кофаундер/Веб мастер/CTO в очень перспективный проект</a>
+                                    <div class="task__attrs attrs">
+                                        <span class="attrs__item">22.10.2015</span>
+                                        <span class="attrs__item">3 отклика</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="promo-block__footer">
+                            <a href="http://freelansim.ru/?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="promo-block__footer-link promo-block__footer-link_left">разместить заказ</a>
+                            <a href="http://freelansim.ru/tasks" data-utm="?utm_source=habrahabr&utm_medium=referral&utm_campaign=mainpage&utm_content=block_freelansim" class="promo-block__footer-link promo-block__footer-link_right">все заказы</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sidebar_right">
+                <!-- R-149298-5 Яндекс.RTB-блок  -->
+                <div id="yandex_ad_R-149298-5" class="float_yandex_ad"></div>
+                <script type="text/javascript">
+                    (function(w, d, n, s, t) {
+                        w[n] = w[n] || [];
+                        w[n].push(function() {
+                            Ya.Context.AdvManager.render({
+                                blockId: "R-149298-5",
+                                renderTo: "yandex_ad_R-149298-5",
+                                async: true
+                            });
+                        });
+                        t = d.getElementsByTagName("script")[0];
+                        s = d.createElement("script");
+                        s.type = "text/javascript";
+                        s.src = "//an.yandex.ru/system/context.js";
+                        s.async = true;
+                        t.parentNode.insertBefore(s, t);
+                    })(this, this.document, "yandexContextAsyncCallbacks");
+                </script>
+            </div>
+        </div>
+
+
+
+        <div class="clear"></div>
+
+        <div class="footer_panel">
+            <div id="footer">
+                <dl>
+                    <dd><a href="https://habrahabr.ru/auth/login/">Войти</a></dd>
+                    <dd><a href="https://habrahabr.ru/auth/register/">Регистрация</a></dd>
+                </dl>
+                <dl>
+                    <dt>Разделы</dt>
+                    <dd><a href="http://habrahabr.ru/posts/top/">Публикации</a></dd>
+                    <dd><a href="http://habrahabr.ru/hubs/">Хабы</a></dd>
+                    <dd><a href="http://habrahabr.ru/companies/">Компании</a></dd>
+                    <dd><a href="http://habrahabr.ru/users/">Пользователи</a></dd>
+                    <dd><a href="http://toster.ru/?_aa=press_anykey">Q&amp;A</a></dd>
+                    <dd><a href="http://habrahabr.ru/sandbox/">Песочница</a></dd>
+
+                </dl>
+                <dl>
+                    <dt>Инфо</dt>
+                    <dd><a href="/info/about/">О сайте</a></dd>
+                    <dd><a href="/info/help/rules/">Правила</a></dd>
+                    <dd><a href="/info/help/">Помощь</a></dd>
+                    <dd><a href="/info/agreement/">Соглашение</a></dd>
+                </dl>
+                <dl>
+                    <dt>Услуги</dt>
+                    <dd><a href="http://special.habrahabr.ru/advertising/">Реклама</a></dd>
+                    <dd><a href="http://special.habrahabr.ru/">Спецпроекты</a></dd>
+                    <dd><a href="http://special.habrahabr.ru/corporate/">Тарифы</a></dd>
+                    <dd><a href="http://special.habrahabr.ru/content/">Контент</a></dd>
+                    <dd><a href="http://special.habrahabr.ru/workshops/">Вебинары</a></dd>
+                </dl>
+
+                <dl>
+                    <dt>Разное</dt>
+                    <dd><a href="/apps/">Приложения</a></dd>
+                    <dd><a href="http://special.habrahabr.ru/microsoft/mobile/" target="_blank">Тест-драйв</a></dd>
+                    <dd><a href="http://special.habrahabr.ru/hello_startup/bizspark/" target="_blank">Помощь стартапам</a></dd>
+                    <dd><a href="http://special.habrahabr.ru/#hr">Работа в IT</a></dd>
+                </dl>
+                <div class="copyright">
+
+                    <div class="about">
+                        <a href="http://tmtm.ru/">© TM</a>
+
+                        <br><br>
+                        <a href="http://habrahabr.ru/feedback/">Служба поддержки</a><br><br>
+                        <a href="http://m.habrahabr.ru/post/245775/?mobile=yes">Мобильная версия</a><br><br>
+
+
+                        <div class="social_accounts">
+                            <a href="https://twitter.com/habrahabr" class="tw"></a>
+                            <a href="https://www.facebook.com/habrahabr.ru" class="fb"></a>
+                            <a href="http://vk.com/habr" class="vk"></a>
+                            <!-- <a href="" class="gp"></a> //-->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="//habracdn.net/habr/javascripts/1445500984/libs/jquery.cookie.js"></script>
+<script type="text/javascript">
+    $(document).ready( function(){
+        window.tmidLogin = function(){ return false; };
+        if( $.cookie('tmid_no_check') == undefined ) {
+            var expire = new Date();
+            expire.setMinutes(expire.getMinutes() + 10 );
+            $.cookie('tmid_no_check', 1, { expires: expire } );
+            $.getScript("https://id.tmtm.ru/checklogin/", function(){
+                if( window.tmidLogin() ) {
+
+                    var href = $('#login').attr('href');
+
+                    if( href !== undefined ) {
+                        window.location.href = href;
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    // global vars
+    var g_base_url = 'habrahabr.ru';
+    var g_show_xpanel = false;
+    var g_base_fullurl = 'http://habrahabr.ru/';
+    var g_is_guest = false;
+</script>
+
+<script type="text/javascript" src="//habracdn.net/habr/javascripts/1445500984/assets/shortcuts.js"></script>
+
+<script type="text/javascript" src="//habracdn.net/habr/javascripts/1445500984/assets/global_footer_main.js"></script>
+
+<script type="text/javascript" src="http://habrahabr.ru/viewcount/post/245775/"></script>
+
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                if (typeof (_yaparams) != 'undefined') {
+                    w.yaCounter24049213 = new Ya.Metrika({id:24049213,
+                        webvisor:true,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true,
+                        params:_yaparams});
+                } else {
+                    w.yaCounter24049213 = new Ya.Metrika({id:24049213,
+                        webvisor:true,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+                }
+
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/24049213" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+
+
+
+
+<!-- Хабр не резиновый! -->
+</body>
+</html>
