@@ -21,12 +21,17 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: "Отсутствует email",
         unique: true,
+        match: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
     },
     name: {
         type: String,
+        trim: true,
+        maxlength: 10
     },
     age: {
-        type: Number
+        type: Number,
+        min: 1,
+        max: 100
     },
     friends: [{
         type: ObjectId,
@@ -68,7 +73,7 @@ co(function*() {
     yield User.remove({/*здесь параметры, объектов, которые хочу удалить например email:...*/}); //удаляю юзеров с параметрами, которые захочу
 
     //User.create - создаст объект и отправит запрос на сохранение в базу
-    var mary = yield* validate({email: 'mary@mail.com', name: "Mary", age: 15});
+    var mary = yield* validate({email: 'mary@mail.com', name: "Mary  ", age: 10});
     var pete = yield* validate({email: 'pete@mail.com', name: "Pete", age: 20});
     var max = yield* validate({email: 'max@mail.com', name: "Max", age: 27});
 
@@ -108,23 +113,24 @@ co(function*() {
 function* validate(opts) {
     var user;
 
-    if (opts.email && !checkEmail(opts.email)) {
+   /* if (opts.email !== undefined && !checkEmail(opts.email)) {
         throw(new Error("Неверный формат email " + opts.name));
         return;
-    }
+    }*/
 
-    if (opts.name && !checkName(opts.name)) {
+  /*  if (opts.name !== undefined && !checkName(opts.name)) {
         throw(new Error("Неверное имя " + opts.name));
         return;
-    }
+    }*/
 
-    if (opts.age && !checkAge(opts.age)) {
+   /* if (opts.age !== undefined && !checkAge(opts.age)) {
         throw(new Error("Неверный возраст " + opts.name));
         return;
-    }
+    }*/
 
     user = yield User.create({
         email: opts.email,
+        age: opts.age,
         name: opts.name
     });
 
