@@ -55,6 +55,8 @@ function sendFile(file, res) {
 
             file.removeListener("readable", write);
 
+            res.removeAllListeners('drain');
+
             res.once('drain', () => { //drain - когда поток все отошлет его внутренний буфер опустеет, то будет сгенерирован drain
                 file.on('readable', write);
                 write();

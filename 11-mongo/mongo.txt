@@ -1,7 +1,7 @@
-mongod --dbpath db - запускаю базу в папке db
+mongod --dbpath ../db - запускаю базу в папке bin
 
 
-mongod --dbpath db -v - запускаю базу в папке db + запросы
+mongod --dbpath ../db -v - запускаю базу в папке db + запросы
 
 db play - тестовая база
 
