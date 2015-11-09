@@ -4,6 +4,7 @@ const chai = require("chai");
 const expect = chai.expect;
 const fs = require('mz/fs');
 const co = require("co");
+const path = require("path");
 
 describe("fsstat", () => {
 
@@ -11,8 +12,7 @@ describe("fsstat", () => {
         let stats;
 
         co(function* () {
-            stats = yield fs.stat("./txt.txt");
-            console.log(stats.isDirectory());
+            stats = yield fs.stat(path.join(__dirname, "txt.txt"));
             expect(!!stats).to.be.true;
             done();
         })
