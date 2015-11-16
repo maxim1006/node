@@ -27,6 +27,7 @@ describe("User REST API", function(){
 
     describe("POST /users", function() {
         it("creates a user", function* (){
+            console.log('+++++++++++++++++');
             let response = yield request({
                 method: 'post',
                 url: getURL('/users'),
