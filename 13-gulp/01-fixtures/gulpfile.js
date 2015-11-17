@@ -35,7 +35,7 @@ gulp.task('db:load:watch', function(callback) {
 // not working
 // parse args -> dbPath
   gulp.watch(dbPath, ['db:load']);
-})
+});
 
 
 // when queue finished, close db
@@ -53,3 +53,34 @@ gulp.on('err', function(gulpErr) {
   mongoose.disconnect();
 });
 
+
+//пример таска для тестов с помощью gulp-mocha
+gulp.task('test', function() {
+    return gulp.src('**/test/*.js', {read: false})//там где не надо читать файлы можно поставить read: false, это сильно ускоряет работу.
+    .pipe(mocha({reporter: "nyan"}));
+});
+
+//gulp-plumber - возвращает поток с поменянным pipe, чтобы не навешивать on error на каждый поток, можно использовать его, пропатченный пайп будет у всех пайп в таске, у каждого из них будет обработка на error
+
+//gulp-load-plugins позволяет заменить кучу requireов на один, лениво подключает плагины
+
+//gulp-debug - позволяет дебажить gulp, выводит все что попадает в поток
+
+//могу сделать так, на вход поток
+//.pipe(es.map(function(file, cb) {
+    //и тут что-то могу сделать с каждым файлом
+//}));
+
+//ленивая подгрузка тасок
+//function lazyRequireTask(path) {
+//    var args = [].slice.call(arguments, 1);
+//    return function(callback) {
+//        var task = require(path).apply(this, args);
+//
+//        return task(callback);
+//    };
+//}
+//пример использования
+//gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
+
+//для разруливанивая gulp.src() gulp использует библиотеку minimatch, можно в ней посмотреть весь синтаксис
