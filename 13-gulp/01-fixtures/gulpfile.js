@@ -83,4 +83,10 @@ gulp.task('test', function() {
 //пример использования
 //gulp.task('lint-once', lazyRequireTask('./tasks/lint', { src: jsSources }));
 
+/*module.exports = function (options) {
+  return function (callback) {
+    return gp.jshintCache(options).apply(this, arguments);
+  };
+};*/
+
 //для разруливанивая gulp.src() gulp использует библиотеку minimatch, можно в ней посмотреть весь синтаксис
