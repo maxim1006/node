@@ -1,12 +1,15 @@
 "use strict";
 
-const server = require('..');
+const server = require('../index.js');
+const should = require('should');
+const co = require('co');
+require('co-mocha');
 const request = require('co-request');
 
 var User = require('../libs/user');
 
 function getURL(path){
-    return `http://localhost:3000${path}`;
+    return `http://localhost:2000${path}`;
 };
 
 describe("User REST API", function(){
@@ -26,26 +29,26 @@ describe("User REST API", function(){
     });
 
     describe("POST /users", function() {
+
         it("creates a user", function* (){
-            console.log('+++++++++++++++++');
             let response = yield request({
                 method: 'post',
                 url: getURL('/users'),
                 json: true,
                 body: newUserData
             });
-            console.log(response.body);
             response.body.email.should.exist;
         });
 
-        it("throws if email already exists", function*() {
+        it.only("throws if email already exists", function* () {
             let response = yield request({
                 method: 'post',
                 url: getURL('/users'),
                 json: true,
                 body: existingUserData
             });
-            response.statusCode.should.eql(400);
+            console.log(response.statusCode);
+            response.statusCode.should.equal(400);
         });
 
         it("throws if email not valid", function*() {

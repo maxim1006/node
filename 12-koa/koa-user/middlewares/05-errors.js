@@ -39,7 +39,7 @@ module.exports = function*(next) {
                     errors: errors
                 };
             } else {
-                this.body = "Некорректные данные.";
+                this.body = "Некорректные данные";
             }
 
         } else {

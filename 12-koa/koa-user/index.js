@@ -6,7 +6,7 @@ if (process.env.TRACE) {
 }
 
 var koa = require('koa');
-
+var url = require("url");
 var app = koa();
 
 module.exports = app;
@@ -54,8 +54,8 @@ router
         yield* next;
     })
     .post('/', function*(next) {
-        console.log("TEST");
-        console.log(this.request.body);
+        console.log("Request body on POST ");
+        console.log(this.request.body.email);
         let user = yield User.create({
             email: this.request.body.email
         });
@@ -70,9 +70,16 @@ router
         this.body = 'ok';
     })
     .get('/', function*(next) {
+        console.log(this.request.query.email);
         let users = yield User.find({}).lean();
 
         this.body = users;
+
+        /*let user = yield User.create({
+            email: this.request.query.email
+        });
+
+        this.body = user.toObject(); //в отличии от lean вызывается на объекте*/
     });
 
 

@@ -12,8 +12,8 @@ var counter = 0;
 //на входящий запрос формируется событие request
 //2 тика на счетчик из-за того, что браузер делает доп запрос за фавиконкой
 server.on('request', (req, res) => {
-    res.writeHead(200, {'Content-type': 'text/plain;charset=utf-8'});
-    res.end("Привет мир!" + ++counter);
+    res.writeHead(200, {'Content-type': 'text/html;charset=utf-8'});
+    res.end("<div>Hello</div>");
 });
 
 //Так как сервер = eventEmitter, то могу посмотреть все события которые на нем происходят,

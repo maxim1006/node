@@ -41,12 +41,12 @@ var router = new Router();
 
 router.get('/views', function* (next) {
 
-    /*var n = this.session.views || 0;
-    this.session.views = ++n;*/
+    var n = this.session.views || 0;
+    this.session.views = ++n;
 
     this.body = this.render(path.join(templatesPath , '/index.jade'), {
         user: 'John',
-        count: 3
+        count: n
     });
 
     yield* next;

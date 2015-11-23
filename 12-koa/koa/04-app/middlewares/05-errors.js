@@ -1,6 +1,4 @@
 module.exports = function*(next) {
-    console.log("errors");
-
     try {
         yield* next;
     } catch (e) {
@@ -13,6 +11,5 @@ module.exports = function*(next) {
             this.statusCode = 500;
             console.error(e.message, e.stack);
         }
-
     }
 };
