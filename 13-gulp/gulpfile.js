@@ -4,7 +4,7 @@ let debug = require('gulp-debug'); //выводит промежуточные �
 let concat = require('gulp-concat');
 let less = require('gulp-less');
 let sourcemaps = require('gulp-sourcemaps');
-let gulpif = require('gulp-if'); //в зависимости от условия пропускает поток
+let gulpif = require('gulp-if'); //в зависимости от условия пропускает поток, пример .pipe(gulpIf('*.styl', gulp.dest('tmp/styles'), gulp.dest('public/styles'))); если файл с расширением .styl то по одному пути, если нет то по другому
 let del = require("del"); //использую этот модуль для удаления
 let newer = require("gulp-newer"); //смотрит в папку и проверяет даты модификации у файлов
 let remember = require("gulp-remember"); //запоминает файлы из потока, которые по нему проходят, надо делать доп обработчик на удаление файла, на вотчер вешаю событие unlink, и вызываю remember.forget
@@ -13,10 +13,19 @@ let cached = require("gulp-cached"); //не пропускает в поток �
 let browserSync = require("browser-sync").create();
 let notify = require("gulp-notify");//для симпотичного вывода ошибок
 let plumber = require("gulp-plumber"); //либо multipipe
+let combine = require('stream-combiner2').obj; //нужно для объединения потоков, пример .pipe(gulpIf(!isDevelopment, combine(rev.manifest('css.json'), gulp.dest('manifest'))));
+let rev = require("gulp-rev");
+let revreplace = require("gulp-rev-replace"); //пример .pipe(gulpIf(!isDevelopment, revReplace({manifest: gulp.src('manifest/css.json', {allowEmpty: true})})))
+
+
+
 
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == "development"; //переменная окружения, если ее не задали или она равна девелопмент, по мне так проще сделать gulp:prod. Могу писать NODE_ENV=production gulp less - так типо запускаю в продакшене, для винды SET NODE_ENV=prod&&gulp less
 console.log("isDevelopment", isDevelopment);
+
+
+
 
 
 /*
@@ -29,6 +38,9 @@ node-static - модуль для сервера, перехожу в папку
 тут прикол галп должен быть npm i gulpjs/gulp#4.0 причем глобально тоже
 
 gulp --tasks - можно посмотреть какие таски естьв  Галп
+
+
+ gulp.src(..., {allowEmpty: true}) - чтобы не кидал ошибку в случае если файлов нет
  */
 
 
@@ -183,3 +195,81 @@ gulp.task('serve', function() {
 });
 
 gulp.task('bs', ['watch', 'serve']);
+
+
+
+
+
+
+//потоки
+/*
+* Так как галп потоки это всего лишь передающиеся объекты vinyl-fs, а through2 накапливает 16 элементов (файлов) и встает на паузу, вывести из паузы можно с помощью return gulp.src()... либо .resume() либо gulp.dest либо обработчиков on('data'),
+*
+* либо просто function(file, enc, cb) {
+ console.log(file.relative);
+ cb(); //тут пустой коллбек файлы не накапливаются
+ }
+*
+*
+* */
+gulp.task('streams', function(callback) {
+
+    gulp.src('node_modules/**/*.*')
+        .pipe(through2(
+            function(file, enc, cb) {
+                console.log(file.relative);
+                cb(null, file);
+            }
+        ))
+        .resume()
+        .on('end', callback);
+
+});
+
+
+
+
+
+//Организация галп файла
+function lazyRequireTask(taskName, path, options) {
+    options = options || {};
+    options.taskName = taskName;
+    gulp.task(taskName, function(callback) {
+        let task = require(path).call(this, options);
+
+        return task(callback);
+    });
+}
+//пример вызова задачи
+lazyRequireTask('styles', './tasks/styles', {
+    src: 'frontend/styles/main.styl'
+});
+//пример задачи
+/*
+'use strict';
+
+const $ = require('gulp-load-plugins')();
+const gulp = require('gulp');
+
+
+
+const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
+
+module.exports = function(options) {
+
+    return function() {
+        return combine(
+            gulp.src(options.src),
+            $.if(isDevelopment, $.sourcemaps.init()),
+            $.stylus(),
+            $.if(isDevelopment, $.sourcemaps.write()),
+            gulp.dest('public')
+        ).on('error', $.notify.onError());
+    };
+
+};*/
+
+
+
+
+
