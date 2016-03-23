@@ -1,9 +1,9 @@
 'use strict';
 
 const server = require('./server');
-const config = require('config');
+const config = require('./config/default.js');
 
-server.listen(config.get('port'), config.get('host'), () => {
+server.listen(config['port'], config['host'], () => {
     console.log(server.address());
 });
 

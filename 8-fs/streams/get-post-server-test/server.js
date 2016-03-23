@@ -5,7 +5,7 @@ const url = require('url');
 const path = require('path');
 const fs = require('fs');
 const mime = require('mime');
-const config = require('config');
+const config = require('./config/default.js');
 
 module.exports = http.createServer((req, res) => {
 
@@ -20,7 +20,7 @@ module.exports = http.createServer((req, res) => {
         res.end("Nested paths are not allowed");
     }
 
-    let filepath = path.join(config.get('publicRoot'), filename)
+    let filepath = path.join(config['publicRoot'], filename)
 
     if (req.method == 'GET') {
         let fileStream = fs.createReadStream(filepath);
